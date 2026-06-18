@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile-First Responsive Design with Tailwind CSS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #f8fafc; }
+  </style>
+</head>
+<body class="min-h-screen text-slate-900">
+  <header class="bg-slate-900 text-white">
+    <div class="mx-auto max-w-6xl px-6 py-6 sm:px-8 lg:flex lg:items-center lg:justify-between">
+      <div>
+        <p class="text-sm uppercase tracking-[0.4em] text-slate-300">Tailwind Mobile-First Demo</p>
+        <h1 class="mt-3 text-3xl font-semibold sm:text-4xl">Responsive layout built for small screens first</h1>
+        <p class="mt-4 max-w-2xl text-slate-300 sm:text-lg">This page uses Tailwind CSS utilities to adapt gracefully from mobile to desktop.</p>
+      </div>
+      <div class="mt-6 flex gap-3 sm:mt-0">
+        <a href="#features" class="inline-flex items-center justify-center rounded-full bg-cyan-500 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/20 transition hover:bg-cyan-400">See features</a>
+        <a href="#pricing" class="inline-flex items-center justify-center rounded-full border border-white/20 px-5 py-3 text-sm text-white transition hover:border-white hover:bg-white/10">Pricing</a>
+      </div>
+    </div>
+  </header>
+  <main class="mx-auto max-w-6xl px-6 py-10 sm:px-8 lg:py-14">
+    <section class="grid gap-8 lg:grid-cols-3 lg:items-end">
+      <article class="rounded-3xl bg-white p-6 shadow-xl shadow-slate-200/70 transition hover:-translate-y-1 hover:shadow-slate-300/80">
+        <p class="text-sm uppercase tracking-[0.32em] text-slate-500">Mobile First</p>
+        <h2 class="mt-4 text-2xl font-semibold text-slate-900">Built for phones first</h2>
+        <p class="mt-3 text-slate-600">Start your design with the smallest screens and scale up with responsive Tailwind utilities.</p>
+      </article>
+      <article class="rounded-3xl bg-slate-900 p-6 text-white shadow-xl shadow-slate-900/30 transition hover:-translate-y-1 hover:shadow-slate-800/50">
+        <p class="text-sm uppercase tracking-[0.32em] text-slate-400">Responsive utilities</p>
+        <h2 class="mt-4 text-2xl font-semibold">Breakpoints that scale</h2>
+        <p class="mt-3 text-slate-300">Use <code class="rounded bg-slate-800 px-1.5 py-0.5 text-sm">sm:</code>, <code class="rounded bg-slate-800 px-1.5 py-0.5 text-sm">md:</code>, and <code class="rounded bg-slate-800 px-1.5 py-0.5 text-sm">lg:</code> to change the layout at each screen width.</p>
+      </article>
+      <article class="rounded-3xl bg-white p-6 shadow-xl shadow-slate-200/70 transition hover:-translate-y-1 hover:shadow-slate-300/80">
+        <p class="text-sm uppercase tracking-[0.32em] text-slate-500">Fast prototyping</p>
+        <h2 class="mt-4 text-2xl font-semibold text-slate-900">No build step needed</h2>
+        <p class="mt-3 text-slate-600">Tailwind CDN lets you apply classes directly in HTML and get responsive design right away.</p>
+      </article>
+    </section>
+    <section id="features" class="mt-14 rounded-[2rem] bg-gradient-to-r from-cyan-500 via-slate-900 to-slate-700 p-8 text-white shadow-2xl shadow-slate-900/20 sm:p-10 lg:p-12">
+      <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+        <div>
+          <span class="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-200">Feature highlight</span>
+          <h2 class="mt-5 text-3xl font-semibold sm:text-4xl">Responsive sections for every screen size</h2>
+          <p class="mt-5 max-w-xl text-slate-100/90">Mobile-first design means the smallest screen gets the cleanest layout first, then larger screens gain more spacing, columns, and richer visuals.</p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="rounded-3xl bg-white/10 p-6">
+            <h3 class="text-xl font-semibold">Fluid spacing</h3>
+            <p class="mt-3 text-slate-100/80">Margin and padding adjust with breakpoints so content stays readable everywhere.</p>
+          </div>
+          <div class="rounded-3xl bg-white/10 p-6">
+            <h3 class="text-xl font-semibold">Adaptive grid</h3>
+            <p class="mt-3 text-slate-100/80">Switch from stacked cards to multi-column layouts using Tailwind's responsive classes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="mt-14">
+      <h2 class="text-3xl font-semibold text-slate-900">Responsive card grid</h2>
+      <p class="mt-3 text-slate-600">Watch the layout change as the screen grows.</p>
+      <div class="mt-8 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+        <div class="rounded-3xl bg-white p-6 shadow-xl shadow-slate-200/70">
+          <span class="inline-flex rounded-full bg-cyan-100 px-3 py-1 text-sm font-semibold text-cyan-700">Design</span>
+          <h3 class="mt-5 text-2xl font-semibold text-slate-900">Stacked on mobile</h3>
+          <p class="mt-3 text-slate-600">All cards start stacked vertically on phone screens for easy tapping.</p>
+        </div>
+        <div class="rounded-3xl bg-white p-6 shadow-xl shadow-slate-200/70">
+          <span class="inline-flex rounded-full bg-cyan-100 px-3 py-1 text-sm font-semibold text-cyan-700">Interaction</span>
+          <h3 class="mt-5 text-2xl font-semibold text-slate-900">Hover states</h3>
+          <p class="mt-3 text-slate-600">Interactive elements stay accessible across devices with consistent spacing and touch-friendly controls.</p>
+        </div>
+        <div class="rounded-3xl bg-white p-6 shadow-xl shadow-slate-200/70">
+          <span class="inline-flex rounded-full bg-cyan-100 px-3 py-1 text-sm font-semibold text-cyan-700">Scale</span>
+          <h3 class="mt-5 text-2xl font-semibold text-slate-900">Scale to desktop</h3>
+          <p class="mt-3 text-slate-600">Card layout becomes multi-column on larger screens without changing the HTML structure.</p>
+        </div>
+      </div>
+    </section>
+    <section id="pricing" class="mt-14 rounded-[2rem] bg-slate-950 p-8 text-white shadow-2xl shadow-slate-900/30 sm:p-10">
+      <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p class="text-sm uppercase tracking-[0.32em] text-slate-400">Responsive pricing</p>
+          <h2 class="mt-4 text-3xl font-semibold">Pick the right plan</h2>
+        </div>
+        <a href="#" class="inline-flex items-center justify-center rounded-full bg-cyan-500 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-cyan-500/25 transition hover:bg-cyan-400">Get started</a>
+      </div>
+      <div class="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <article class="rounded-3xl bg-slate-800 p-6">
+          <h3 class="text-xl font-semibold">Starter</h3>
+          <p class="mt-3 text-slate-400">Perfect for mobile-first landing pages and small projects.</p>
+          <p class="mt-6 text-4xl font-bold">Free</p>
+        </article>
+        <article class="rounded-3xl bg-slate-800 p-6">
+          <h3 class="text-xl font-semibold">Growth</h3>
+          <p class="mt-3 text-slate-400">Add advanced components and better desktop experiences.</p>
+          <p class="mt-6 text-4xl font-bold">$12/mo</p>
+        </article>
+        <article class="rounded-3xl bg-slate-800 p-6">
+          <h3 class="text-xl font-semibold">Scale</h3>
+          <p class="mt-3 text-slate-400">Designed for responsive applications and multi-device workflows.</p>
+          <p class="mt-6 text-4xl font-bold">$24/mo</p>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="border-t border-slate-200/10 bg-slate-950 px-6 py-8 text-slate-400 sm:px-8">
+    <div class="mx-auto max-w-6xl text-center">
+      <p>Mobile-first responsive design example created using Tailwind CSS CDN.</p>
+    </div>
+  </footer>
+</body>
+</html>
