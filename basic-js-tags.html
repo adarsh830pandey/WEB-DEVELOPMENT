@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic JavaScript Tags</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f7fb; color: #222; }
+    header { background: #1d4ed8; color: white; padding: 24px 16px; text-align: center; }
+    main { max-width: 900px; margin: 24px auto; padding: 16px; background: white; box-shadow: 0 8px 24px rgba(0,0,0,.08); border-radius: 12px; }
+    h1, h2, h3 { color: #0f172a; }
+    p { line-height: 1.7; }
+    pre { background: #0f172a; color: #f8fafc; padding: 16px; border-radius: 10px; overflow-x: auto; }
+    code { color: #38bdf8; }
+    section { margin-bottom: 28px; }
+    .example { margin: 16px 0; }
+    button { background: #2563eb; color: white; border: none; padding: 12px 18px; border-radius: 8px; cursor: pointer; font-size: 1rem; }
+    button:hover { background: #1d4ed8; }
+    .output { margin-top: 12px; padding: 14px; border: 1px solid #cbd5e1; border-radius: 10px; background: #f8fafc; }
+    footer { text-align: center; margin: 20px 0; color: #64748b; font-size: 0.95rem; }
+    @media (max-width: 640px) { body { padding: 0 10px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Basic JavaScript Tags</h1>
+    <p>Learn how JavaScript works inside HTML using <code>&lt;script&gt;</code> tags.</p>
+  </header>
+  <main>
+    <section>
+      <h2>1. What is the <code>&lt;script&gt;</code> tag?</h2>
+      <p>The <code>&lt;script&gt;</code> tag tells the browser to run JavaScript code. It can contain code directly inside the tag or load code from an external file.</p>
+    </section>
+    <section>
+      <h2>2. Inline JavaScript</h2>
+      <p>This is the most basic way to add JavaScript to a page:</p>
+      <pre><code>&lt;script&gt;
+  alert('Hello from inline JavaScript!');
+&lt;/script&gt;</code></pre>
+      <p>The code above runs immediately when the browser reaches the script.</p>
+    </section>
+    <section>
+      <h2>3. External JavaScript file</h2>
+      <p>Use the <code>src</code> attribute to load JavaScript from a separate file:</p>
+      <pre><code>&lt;script src="js-basics.js"&gt;&lt;/script&gt;</code></pre>
+      <p>External scripts keep HTML clean and help reuse code across pages.</p>
+    </section>
+    <section>
+      <h2>4. Adding scripts at the end of <code>&lt;body&gt;</code></h2>
+      <p>Put your script before the closing <code>&lt;/body&gt;</code> tag so the page content loads first. That way, JavaScript can safely access page elements.</p>
+    </section>
+    <section>
+      <h2>5. A live example</h2>
+      <p>Click the button below to run JavaScript using a <code>&lt;script&gt;</code> tag.</p>
+      <div class="example">
+        <button id="demoButton">Click me</button>
+        <div class="output" id="demoOutput">Result appears here.</div>
+      </div>
+      <p>This example uses an inline <code>&lt;script&gt;</code> that attaches a listener to the button.</p>
+      <pre><code>&lt;script&gt;
+  const button = document.getElementById('demoButton');
+  const output = document.getElementById('demoOutput');
+
+  button.addEventListener('click', () =&gt; {
+    output.textContent = 'The JavaScript button was clicked!';
+  });
+&lt;/script&gt;</code></pre>
+    </section>
+    <section>
+      <h2>6. Using <code>defer</code> and <code>async</code></h2>
+      <p>For external scripts, you can control loading timing with optional attributes:</p>
+      <ul>
+        <li><code>defer</code>: download the script while the page loads, then run it after parsing HTML.</li>
+        <li><code>async</code>: download the script while the page loads and run it as soon as it finishes downloading.</li>
+      </ul>
+      <pre><code>&lt;script src="js-basics.js" defer&gt;&lt;/script&gt;
+&lt;script src="js-basics.js" async&gt;&lt;/script&gt;</code></pre>
+    </section>
+    <section>
+      <h2>7. Example of an external script</h2>
+      <p>This page also loads an external script file from <code>js-basics.js</code>.</p>
+      <pre><code>// js-basics.js
+document.addEventListener('DOMContentLoaded', () =&gt; {
+  const message = document.getElementById('externalMessage');
+  if (message) {
+    message.textContent = 'This message was set by an external JavaScript file.';
+  }
+});</code></pre>
+    </section>
+    <section>
+      <h2>8. Why use JavaScript tags?</h2>
+      <p>JavaScript tags make it possible to:</p>
+      <ul>
+        <li>Show messages</li>
+        <li>React to user clicks</li>
+        <li>Change content dynamically</li>
+        <li>Validate forms</li>
+      </ul>
+    </section>
+    <div class="output" id="externalMessage">Waiting for external script...</div>
+  </main>
+  <footer>
+    <p>Basic JavaScript tags explained in a simple page.</p>
+  </footer>
+  <script>
+    const button = document.getElementById('demoButton');
+    const output = document.getElementById('demoOutput');
+
+    button.addEventListener('click', () => {
+      output.textContent = 'The JavaScript button was clicked!';
+    });
+  </script>
+  <script src="js-basics.js" defer></script>
+</body>
+</html>
