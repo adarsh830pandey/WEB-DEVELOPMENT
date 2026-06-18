@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Operations in JavaScript</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .section h2 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .output {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .code-example {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .code-example code {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Array Operations in JavaScript</h1>
+        
+        <!-- Creating Arrays -->
+        <div class="section">
+            <h2>1. Creating Arrays</h2>
+            <button onclick="createArrays()">Run Example</button>
+            <div class="code-example"><code>
+// Using array literal
+let fruits = ['Apple', 'Banana', 'Orange'];
+
+// Using Array constructor
+let numbers = new Array(1, 2, 3, 4, 5);
+
+// Using Array.from()
+let range = Array.from({length: 5}, (_, i) => i + 1);
+            </code></div>
+            <div id="createOutput" class="output"></div>
+        </div>
+
+        <!-- Accessing Elements -->
+        <div class="section">
+            <h2>2. Accessing Array Elements</h2>
+            <button onclick="accessElements()">Run Example</button>
+            <div class="code-example"><code>
+let arr = ['a', 'b', 'c', 'd'];
+arr[0]        // 'a' - first element
+arr[2]        // 'c' - third element
+arr.at(-1)    // 'd' - last element
+arr[arr.length - 1]  // 'd' - last element
+            </code></div>
+            <div id="accessOutput" class="output"></div>
+        </div>
+
+        <!-- Adding/Removing Elements -->
+        <div class="section">
+            <h2>3. Adding and Removing Elements</h2>
+            <button onclick="modifyArray()">Run Example</button>
+            <div class="code-example"><code>
+let arr = [1, 2, 3];
+arr.push(4, 5)        // Add to end
+arr.pop()             // Remove from end
+arr.unshift(0)        // Add to beginning
+arr.shift()           // Remove from beginning
+arr.splice(1, 2)      // Remove 2 elements starting at index 1
+            </code></div>
+            <div id="modifyOutput" class="output"></div>
+        </div>
+
+        <!-- Array Iteration -->
+        <div class="section">
+            <h2>4. Iterating Through Arrays</h2>
+            <button onclick="iterateArray()">Run Example</button>
+            <div class="code-example"><code>
+let arr = [1, 2, 3];
+arr.forEach(item => console.log(item))
+arr.map(x => x * 2)
+arr.filter(x => x > 1)
+for (let i = 0; i < arr.length; i++) { }
+for (let item of arr) { }
+            </code></div>
+            <div id="iterateOutput" class="output"></div>
+        </div>
+
+        <!-- Array Methods: Transform -->
+        <div class="section">
+            <h2>5. Transforming Arrays (map, filter, reduce)</h2>
+            <button onclick="transformArray()">Run Example</button>
+            <div class="code-example"><code>
+let numbers = [1, 2, 3, 4, 5];
+numbers.map(x => x * 2)           // [2, 4, 6, 8, 10]
+numbers.filter(x => x > 2)        // [3, 4, 5]
+numbers.reduce((sum, x) => sum + x, 0)  // 15
+            </code></div>
+            <div id="transformOutput" class="output"></div>
+        </div>
+
+        <!-- Array Methods: Search -->
+        <div class="section">
+            <h2>6. Searching Arrays</h2>
+            <button onclick="searchArray()">Run Example</button>
+            <div class="code-example"><code>
+let arr = ['a', 'b', 'c', 'b'];
+arr.indexOf('b')      // 1
+arr.includes('c')     // true
+arr.find(x => x === 'b')      // 'b'
+arr.findIndex(x => x === 'b') // 1
+            </code></div>
+            <div id="searchOutput" class="output"></div>
+        </div>
+
+        <!-- Array Methods: Combine -->
+        <div class="section">
+            <h2>7. Combining and Splitting Arrays</h2>
+            <button onclick="combineArray()">Run Example</button>
+            <div class="code-example"><code>
+let arr1 = [1, 2];
+let arr2 = [3, 4];
+arr1.concat(arr2)           // [1, 2, 3, 4]
+[...arr1, ...arr2]          // [1, 2, 3, 4] - spread operator
+arr1.join('-')              // '1-2'
+'a-b-c'.split('-')          // ['a', 'b', 'c']
+            </code></div>
+            <div id="combineOutput" class="output"></div>
+        </div>
+
+        <!-- Array Methods: Sort/Reverse -->
+        <div class="section">
+            <h2>8. Sorting and Reversing</h2>
+            <button onclick="sortReverse()">Run Example</button>
+            <div class="code-example"><code>
+let arr = [3, 1, 4, 1, 5];
+arr.sort()                    // [1, 1, 3, 4, 5]
+arr.sort((a, b) => b - a)    // [5, 4, 3, 1, 1] - descending
+arr.reverse()                // Reverses array
+            </code></div>
+            <div id="sortOutput" class="output"></div>
+        </div>
+
+        <!-- Array Methods: Checking -->
+        <div class="section">
+            <h2>9. Checking Array Conditions</h2>
+            <button onclick="checkArray()">Run Example</button>
+            <div class="code-example"><code>
+let arr = [2, 4, 6, 8];
+arr.every(x => x % 2 === 0)   // true - all even
+arr.some(x => x > 5)          // true - some > 5
+arr.length                    // 4
+Array.isArray(arr)            // true
+            </code></div>
+            <div id="checkOutput" class="output"></div>
+        </div>
+
+        <!-- Destructuring -->
+        <div class="section">
+            <h2>10. Array Destructuring</h2>
+            <button onclick="destructuring()">Run Example</button>
+            <div class="code-example"><code>
+let [a, b, c] = [1, 2, 3]
+let [first, ...rest] = [1, 2, 3, 4]  // rest = [2, 3, 4]
+let [x, , z] = [1, 2, 3]             // skips middle element
+            </code></div>
+            <div id="destructOutput" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        function log(output, message) {
+            const element = document.getElementById(output);
+            element.textContent += message + '\n';
+        }
+
+        function clear(output) {
+            document.getElementById(output).textContent = '';
+        }
+
+        function createArrays() {
+            clear('createOutput');
+            
+            // Using array literal
+            let fruits = ['Apple', 'Banana', 'Orange'];
+            log('createOutput', 'Array literal:');
+            log('createOutput', JSON.stringify(fruits));
+            
+            // Using Array constructor
+            let numbers = new Array(1, 2, 3, 4, 5);
+            log('createOutput', '\nArray constructor:');
+            log('createOutput', JSON.stringify(numbers));
+            
+            // Using Array.from()
+            let range = Array.from({length: 5}, (_, i) => i + 1);
+            log('createOutput', '\nArray.from():');
+            log('createOutput', JSON.stringify(range));
+            
+            // Empty array
+            let empty = [];
+            log('createOutput', '\nEmpty array:');
+            log('createOutput', JSON.stringify(empty) + ' (length: ' + empty.length + ')');
+        }
+
+        function accessElements() {
+            clear('accessOutput');
+            let arr = ['a', 'b', 'c', 'd', 'e'];
+            
+            log('accessOutput', 'Array: ' + JSON.stringify(arr));
+            log('accessOutput', '\narr[0]: ' + arr[0]);
+            log('accessOutput', 'arr[2]: ' + arr[2]);
+            log('accessOutput', 'arr[4]: ' + arr[4]);
+            log('accessOutput', 'arr.at(-1): ' + arr.at(-1) + ' (last)');
+            log('accessOutput', 'arr.at(-2): ' + arr.at(-2) + ' (second last)');
+            log('accessOutput', '\nArray length: ' + arr.length);
+        }
+
+        function modifyArray() {
+            clear('modifyOutput');
+            
+            let arr = [1, 2, 3];
+            log('modifyOutput', 'Initial: ' + JSON.stringify(arr));
+            
+            arr.push(4, 5);
+            log('modifyOutput', 'After push(4, 5): ' + JSON.stringify(arr));
+            
+            arr.pop();
+            log('modifyOutput', 'After pop(): ' + JSON.stringify(arr));
+            
+            arr.unshift(0);
+            log('modifyOutput', 'After unshift(0): ' + JSON.stringify(arr));
+            
+            arr.shift();
+            log('modifyOutput', 'After shift(): ' + JSON.stringify(arr));
+            
+            let arr2 = [1, 2, 3, 4, 5];
+            arr2.splice(1, 2, 'a', 'b');
+            log('modifyOutput', '\nOriginal: [1, 2, 3, 4, 5]');
+            log('modifyOutput', 'After splice(1, 2, "a", "b"): ' + JSON.stringify(arr2));
+        }
+
+        function iterateArray() {
+            clear('iterateOutput');
+            let arr = [1, 2, 3];
+            
+            log('iterateOutput', 'Array: ' + JSON.stringify(arr) + '\n');
+            
+            log('iterateOutput', '--- forEach ---');
+            arr.forEach((item, index) => {
+                log('iterateOutput', `Index ${index}: ${item}`);
+            });
+            
+            log('iterateOutput', '\n--- for...of loop ---');
+            for (let item of arr) {
+                log('iterateOutput', 'Item: ' + item);
+            }
+            
+            log('iterateOutput', '\n--- for loop ---');
+            for (let i = 0; i < arr.length; i++) {
+                log('iterateOutput', `arr[${i}] = ${arr[i]}`);
+            }
+        }
+
+        function transformArray() {
+            clear('transformOutput');
+            let numbers = [1, 2, 3, 4, 5];
+            
+            log('transformOutput', 'Original: ' + JSON.stringify(numbers));
+            
+            let doubled = numbers.map(x => x * 2);
+            log('transformOutput', '\nmap(x => x * 2): ' + JSON.stringify(doubled));
+            
+            let evens = numbers.filter(x => x % 2 === 0);
+            log('transformOutput', 'filter(x => x % 2 === 0): ' + JSON.stringify(evens));
+            
+            let sum = numbers.reduce((acc, x) => acc + x, 0);
+            log('transformOutput', 'reduce((acc, x) => acc + x, 0): ' + sum);
+            
+            let product = numbers.reduce((acc, x) => acc * x, 1);
+            log('transformOutput', 'reduce((acc, x) => acc * x, 1): ' + product);
+        }
+
+        function searchArray() {
+            clear('searchOutput');
+            let arr = ['apple', 'banana', 'cherry', 'banana'];
+            
+            log('searchOutput', 'Array: ' + JSON.stringify(arr));
+            
+            log('searchOutput', '\nindexOf("banana"): ' + arr.indexOf('banana'));
+            log('searchOutput', 'includes("cherry"): ' + arr.includes('cherry'));
+            log('searchOutput', 'includes("grape"): ' + arr.includes('grape'));
+            
+            log('searchOutput', '\nfind(x => x.length > 5): ' + arr.find(x => x.length > 5));
+            log('searchOutput', 'findIndex(x => x.length > 6): ' + arr.findIndex(x => x.length > 6));
+            
+            log('searchOutput', '\nEvery element starts with "a": ' + arr.every(x => x.startsWith('a')));
+            log('searchOutput', 'Some elements start with "b": ' + arr.some(x => x.startsWith('b')));
+        }
+
+        function combineArray() {
+            clear('combineOutput');
+            
+            let arr1 = [1, 2];
+            let arr2 = [3, 4];
+            let arr3 = [5, 6];
+            
+            log('combineOutput', 'arr1: ' + JSON.stringify(arr1));
+            log('combineOutput', 'arr2: ' + JSON.stringify(arr2));
+            
+            let combined = arr1.concat(arr2, arr3);
+            log('combineOutput', '\nconcat(arr2, arr3): ' + JSON.stringify(combined));
+            
+            let spread = [...arr1, ...arr2];
+            log('combineOutput', 'Spread [...arr1, ...arr2]: ' + JSON.stringify(spread));
+            
+            let joined = [1, 2, 3, 4].join('-');
+            log('combineOutput', '\n[1, 2, 3, 4].join("-"): ' + joined);
+            
+            let split = 'a-b-c-d'.split('-');
+            log('combineOutput', '"a-b-c-d".split("-"): ' + JSON.stringify(split));
+            
+            let split2 = 'hello'.split('');
+            log('combineOutput', '"hello".split(""): ' + JSON.stringify(split2));
+        }
+
+        function sortReverse() {
+            clear('sortOutput');
+            
+            let arr = [3, 1, 4, 1, 5, 9, 2];
+            log('sortOutput', 'Original: ' + JSON.stringify(arr));
+            
+            let sorted = [...arr].sort((a, b) => a - b);
+            log('sortOutput', 'Ascending sort: ' + JSON.stringify(sorted));
+            
+            let descending = [...arr].sort((a, b) => b - a);
+            log('sortOutput', 'Descending sort: ' + JSON.stringify(descending));
+            
+            let words = ['zebra', 'apple', 'banana'];
+            log('sortOutput', '\nWords: ' + JSON.stringify(words));
+            log('sortOutput', 'Sorted: ' + JSON.stringify([...words].sort()));
+            
+            let reversed = [...arr].reverse();
+            log('sortOutput', '\nOriginal reversed: ' + JSON.stringify(reversed));
+        }
+
+        function checkArray() {
+            clear('checkOutput');
+            
+            let arr = [2, 4, 6, 8];
+            log('checkOutput', 'Array: ' + JSON.stringify(arr));
+            log('checkOutput', 'Length: ' + arr.length);
+            log('checkOutput', 'Is Array: ' + Array.isArray(arr));
+            
+            log('checkOutput', '\nEvery element even: ' + arr.every(x => x % 2 === 0));
+            log('checkOutput', 'Every element > 5: ' + arr.every(x => x > 5));
+            
+            log('checkOutput', '\nSome element > 5: ' + arr.some(x => x > 5));
+            log('checkOutput', 'Some element < 3: ' + arr.some(x => x < 3));
+            
+            let notArray = "hello";
+            log('checkOutput', '\nIs "hello" an Array: ' + Array.isArray(notArray));
+        }
+
+        function destructuring() {
+            clear('destructOutput');
+            
+            let [a, b, c] = [1, 2, 3];
+            log('destructOutput', 'let [a, b, c] = [1, 2, 3]');
+            log('destructOutput', 'a = ' + a + ', b = ' + b + ', c = ' + c);
+            
+            let [x, ...rest] = [10, 20, 30, 40];
+            log('destructOutput', '\nlet [x, ...rest] = [10, 20, 30, 40]');
+            log('destructOutput', 'x = ' + x);
+            log('destructOutput', 'rest = ' + JSON.stringify(rest));
+            
+            let [first, , third] = ['a', 'b', 'c'];
+            log('destructOutput', '\nlet [first, , third] = ["a", "b", "c"] (skip middle)');
+            log('destructOutput', 'first = ' + first + ', third = ' + third);
+            
+            let [p = 'default', q] = [undefined, 'value'];
+            log('destructOutput', '\nlet [p = "default", q] = [undefined, "value"]');
+            log('destructOutput', 'p = ' + p + ', q = ' + q);
+        }
+
+        // Run first example on load
+        window.addEventListener('load', createArrays);
+    </script>
+</body>
+</html>

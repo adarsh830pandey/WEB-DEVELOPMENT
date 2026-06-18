@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Operations in JavaScript</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #f5576c;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #f5576c;
+            border-radius: 4px;
+        }
+        .section h2 {
+            color: #f5576c;
+            margin-top: 0;
+        }
+        button {
+            background: #f5576c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #f093fb;
+        }
+        .output {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .code-example {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .code-example code {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Object Operations in JavaScript</h1>
+        
+        <!-- Creating Objects -->
+        <div class="section">
+            <h2>1. Creating Objects</h2>
+            <button onclick="createObjects()">Run Example</button>
+            <div class="code-example"><code>
+// Object literal
+let user = { name: 'John', age: 30 };
+
+// Using constructor
+let car = new Object();
+car.brand = 'Toyota';
+
+// Using Object.create()
+let obj = Object.create(null);
+
+// Using class
+class Person { constructor(name) { this.name = name; } }
+            </code></div>
+            <div id="createOutput" class="output"></div>
+        </div>
+
+        <!-- Accessing Properties -->
+        <div class="section">
+            <h2>2. Accessing Properties</h2>
+            <button onclick="accessProperties()">Run Example</button>
+            <div class="code-example"><code>
+let user = { name: 'John', age: 30, 'full-name': 'John Doe' };
+
+user.name              // dot notation
+user['age']            // bracket notation
+user['full-name']      // for properties with hyphens
+user.email || 'N/A'    // default value if undefined
+            </code></div>
+            <div id="accessOutput" class="output"></div>
+        </div>
+
+        <!-- Adding/Modifying Properties -->
+        <div class="section">
+            <h2>3. Adding and Modifying Properties</h2>
+            <button onclick="modifyProperties()">Run Example</button>
+            <div class="code-example"><code>
+let obj = { name: 'John' };
+obj.age = 30              // add property
+obj['city'] = 'NYC'       // add property using bracket
+obj.name = 'Jane'         // modify property
+delete obj.age            // delete property
+obj.email = undefined     // set to undefined
+            </code></div>
+            <div id="modifyOutput" class="output"></div>
+        </div>
+
+        <!-- Object Methods -->
+        <div class="section">
+            <h2>4. Object Methods</h2>
+            <button onclick="objectMethods()">Run Example</button>
+            <div class="code-example"><code>
+let obj = { name: 'John', age: 30 };
+
+Object.keys(obj)              // ['name', 'age']
+Object.values(obj)            // ['John', 30]
+Object.entries(obj)           // [['name', 'John'], ['age', 30]]
+Object.assign(obj, {city: 'NY'})  // merge objects
+            </code></div>
+            <div id="methodsOutput" class="output"></div>
+        </div>
+
+        <!-- Checking Properties -->
+        <div class="section">
+            <h2>5. Checking Properties</h2>
+            <button onclick="checkProperties()">Run Example</button>
+            <div class="code-example"><code>
+let user = { name: 'John', age: 30 };
+
+'name' in user              // true
+user.hasOwnProperty('age')  // true
+user.hasOwnProperty('city') // false
+typeof user.email          // 'undefined'
+            </code></div>
+            <div id="checkOutput" class="output"></div>
+        </div>
+
+        <!-- Object Iteration -->
+        <div class="section">
+            <h2>6. Iterating Through Objects</h2>
+            <button onclick="iterateObjects()">Run Example</button>
+            <div class="code-example"><code>
+let user = { name: 'John', age: 30, city: 'NYC' };
+
+for (let key in user) { }           // for...in loop
+Object.keys(user).forEach(key => {})  // forEach with keys
+Object.entries(user).forEach(([k, v]) => {})  // forEach entries
+            </code></div>
+            <div id="iterateOutput" class="output"></div>
+        </div>
+
+        <!-- Nested Objects -->
+        <div class="section">
+            <h2>7. Nested Objects</h2>
+            <button onclick="nestedObjects()">Run Example</button>
+            <div class="code-example"><code>
+let user = {
+    name: 'John',
+    address: { city: 'NYC', zip: '10001' },
+    hobbies: ['reading', 'gaming']
+};
+
+user.address.city          // 'NYC'
+user.address['zip']        // '10001'
+user.hobbies[0]            // 'reading'
+            </code></div>
+            <div id="nestedOutput" class="output"></div>
+        </div>
+
+        <!-- Object Spreading -->
+        <div class="section">
+            <h2>8. Object Spreading & Cloning</h2>
+            <button onclick="objectSpreading()">Run Example</button>
+            <div class="code-example"><code>
+let obj1 = { name: 'John', age: 30 };
+let obj2 = { city: 'NYC' };
+
+// Shallow copy
+let copy = { ...obj1 };
+let copy2 = Object.assign({}, obj1);
+
+// Merge objects
+let merged = { ...obj1, ...obj2 };
+
+// Override properties
+let updated = { ...obj1, age: 31 };
+            </code></div>
+            <div id="spreadOutput" class="output"></div>
+        </div>
+
+        <!-- Object Destructuring -->
+        <div class="section">
+            <h2>9. Object Destructuring</h2>
+            <button onclick="objectDestructuring()">Run Example</button>
+            <div class="code-example"><code>
+let user = { name: 'John', age: 30, city: 'NYC' };
+
+// Basic destructuring
+let { name, age } = user;
+
+// Renaming
+let { name: userName, age: userAge } = user;
+
+// Default values
+let { email = 'no-email' } = user;
+
+// Rest properties
+let { name, ...rest } = user;
+            </code></div>
+            <div id="destructOutput" class="output"></div>
+        </div>
+
+        <!-- Methods in Objects -->
+        <div class="section">
+            <h2>10. Methods in Objects</h2>
+            <button onclick="objectMethods2()">Run Example</button>
+            <div class="code-example"><code>
+let user = {
+    name: 'John',
+    greet: function() {
+        return 'Hello ' + this.name;
+    },
+    introduce() {
+        return 'I am ' + this.name;
+    },
+    age: 30
+};
+
+user.greet()         // 'Hello John'
+user.introduce()     // 'I am John'
+            </code></div>
+            <div id="methods2Output" class="output"></div>
+        </div>
+
+        <!-- Advanced: Getters & Setters -->
+        <div class="section">
+            <h2>11. Getters and Setters</h2>
+            <button onclick="gettersSetters()">Run Example</button>
+            <div class="code-example"><code>
+let user = {
+    _age: 30,
+    get age() {
+        return this._age;
+    },
+    set age(value) {
+        if (value > 0) this._age = value;
+    }
+};
+
+user.age              // getter
+user.age = 31         // setter
+            </code></div>
+            <div id="getterOutput" class="output"></div>
+        </div>
+
+        <!-- Object Freezing -->
+        <div class="section">
+            <h2>12. Freezing and Sealing Objects</h2>
+            <button onclick="freezeObjects()">Run Example</button>
+            <div class="code-example"><code>
+let user = { name: 'John', age: 30 };
+
+// Freeze - no changes allowed
+Object.freeze(user);
+
+// Seal - modify existing, no add/delete
+Object.seal(user);
+
+// Check if frozen/sealed
+Object.isFrozen(user)
+Object.isSealed(user)
+            </code></div>
+            <div id="freezeOutput" class="output"></div>
+        </div>
+
+        <!-- Creating Objects with Classes -->
+        <div class="section">
+            <h2>13. Classes and Constructor Functions</h2>
+            <button onclick="classesExample()">Run Example</button>
+            <div class="code-example"><code>
+class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    greet() {
+        return 'Hi, I am ' + this.name;
+    }
+}
+
+let person1 = new Person('John', 30);
+            </code></div>
+            <div id="classOutput" class="output"></div>
+        </div>
+
+        <!-- Advanced Properties -->
+        <div class="section">
+            <h2>14. Defining Properties with Property Descriptors</h2>
+            <button onclick="propertyDescriptors()">Run Example</button>
+            <div class="code-example"><code>
+let obj = {};
+Object.defineProperty(obj, 'name', {
+    value: 'John',
+    writable: true,      // can be modified
+    enumerable: true,    // shows in for...in
+    configurable: true   // can be deleted/redefined
+});
+
+Object.getOwnPropertyDescriptor(obj, 'name')
+            </code></div>
+            <div id="descriptorOutput" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        function log(output, message) {
+            const element = document.getElementById(output);
+            element.textContent += message + '\n';
+        }
+
+        function clear(output) {
+            document.getElementById(output).textContent = '';
+        }
+
+        function createObjects() {
+            clear('createOutput');
+            
+            // Object literal
+            let user = { name: 'John', age: 30, city: 'NYC' };
+            log('createOutput', 'Object literal:');
+            log('createOutput', JSON.stringify(user));
+            
+            // Using new Object()
+            let car = new Object();
+            car.brand = 'Toyota';
+            car.model = 'Camry';
+            log('createOutput', '\nUsing new Object():');
+            log('createOutput', JSON.stringify(car));
+            
+            // Empty object
+            let empty = {};
+            log('createOutput', '\nEmpty object: ' + JSON.stringify(empty));
+            
+            // Using Object.create()
+            let proto = { greeting: 'Hello' };
+            let obj = Object.create(proto);
+            log('createOutput', '\nObject.create() - obj.greeting: ' + obj.greeting);
+        }
+
+        function accessProperties() {
+            clear('accessOutput');
+            let user = { name: 'John', age: 30, city: 'NYC', 'full-name': 'John Doe' };
+            
+            log('accessOutput', 'Object: ' + JSON.stringify(user));
+            
+            log('accessOutput', '\nDot notation:');
+            log('accessOutput', 'user.name: ' + user.name);
+            log('accessOutput', 'user.age: ' + user.age);
+            
+            log('accessOutput', '\nBracket notation:');
+            log('accessOutput', 'user["city"]: ' + user['city']);
+            log('accessOutput', 'user["full-name"]: ' + user['full-name']);
+            
+            log('accessOutput', '\nDefault value (non-existent):');
+            log('accessOutput', 'user.email || "No email": ' + (user.email || 'No email'));
+            
+            log('accessOutput', '\nUsing variable:');
+            let key = 'name';
+            log('accessOutput', 'key = "name"; user[key]: ' + user[key]);
+        }
+
+        function modifyProperties() {
+            clear('modifyOutput');
+            
+            let obj = { name: 'John', age: 30 };
+            log('modifyOutput', 'Initial: ' + JSON.stringify(obj));
+            
+            obj.city = 'NYC';
+            log('modifyOutput', 'After obj.city = "NYC": ' + JSON.stringify(obj));
+            
+            obj['country'] = 'USA';
+            log('modifyOutput', 'After obj["country"] = "USA": ' + JSON.stringify(obj));
+            
+            obj.name = 'Jane';
+            log('modifyOutput', 'After obj.name = "Jane": ' + JSON.stringify(obj));
+            
+            delete obj.age;
+            log('modifyOutput', 'After delete obj.age: ' + JSON.stringify(obj));
+        }
+
+        function objectMethods() {
+            clear('methodsOutput');
+            
+            let user = { name: 'John', age: 30, city: 'NYC' };
+            
+            log('methodsOutput', 'Object: ' + JSON.stringify(user));
+            
+            log('methodsOutput', '\nObject.keys():');
+            log('methodsOutput', JSON.stringify(Object.keys(user)));
+            
+            log('methodsOutput', '\nObject.values():');
+            log('methodsOutput', JSON.stringify(Object.values(user)));
+            
+            log('methodsOutput', '\nObject.entries():');
+            log('methodsOutput', JSON.stringify(Object.entries(user)));
+            
+            let obj2 = { email: 'john@example.com' };
+            let merged = Object.assign({}, user, obj2);
+            log('methodsOutput', '\nObject.assign({}, user, obj2):');
+            log('methodsOutput', JSON.stringify(merged));
+        }
+
+        function checkProperties() {
+            clear('checkOutput');
+            
+            let user = { name: 'John', age: 30 };
+            log('checkOutput', 'Object: ' + JSON.stringify(user));
+            
+            log('checkOutput', '\nChecking properties:');
+            log('checkOutput', '"name" in user: ' + ('name' in user));
+            log('checkOutput', '"age" in user: ' + ('age' in user));
+            log('checkOutput', '"email" in user: ' + ('email' in user));
+            
+            log('checkOutput', '\nhasOwnProperty():');
+            log('checkOutput', 'user.hasOwnProperty("name"): ' + user.hasOwnProperty('name'));
+            log('checkOutput', 'user.hasOwnProperty("email"): ' + user.hasOwnProperty('email'));
+            
+            log('checkOutput', '\nChecking typeof:');
+            log('checkOutput', 'typeof user.name: ' + typeof user.name);
+            log('checkOutput', 'typeof user.email: ' + typeof user.email);
+        }
+
+        function iterateObjects() {
+            clear('iterateOutput');
+            
+            let user = { name: 'John', age: 30, city: 'NYC' };
+            log('iterateOutput', 'Object: ' + JSON.stringify(user));
+            
+            log('iterateOutput', '\n--- for...in loop ---');
+            for (let key in user) {
+                log('iterateOutput', key + ': ' + user[key]);
+            }
+            
+            log('iterateOutput', '\n--- Object.keys().forEach() ---');
+            Object.keys(user).forEach(key => {
+                log('iterateOutput', key + ': ' + user[key]);
+            });
+            
+            log('iterateOutput', '\n--- Object.entries().forEach() ---');
+            Object.entries(user).forEach(([key, value]) => {
+                log('iterateOutput', key + ': ' + value);
+            });
+        }
+
+        function nestedObjects() {
+            clear('nestedOutput');
+            
+            let user = {
+                name: 'John',
+                address: { city: 'NYC', zip: '10001', country: 'USA' },
+                hobbies: ['reading', 'gaming', 'coding'],
+                contact: { email: 'john@example.com', phone: '123-456-7890' }
+            };
+            
+            log('nestedOutput', 'Nested Object: ' + JSON.stringify(user, null, 2));
+            
+            log('nestedOutput', '\nAccessing nested properties:');
+            log('nestedOutput', 'user.address.city: ' + user.address.city);
+            log('nestedOutput', 'user.address["zip"]: ' + user.address['zip']);
+            log('nestedOutput', 'user.hobbies[0]: ' + user.hobbies[0]);
+            log('nestedOutput', 'user.contact.email: ' + user.contact.email);
+        }
+
+        function objectSpreading() {
+            clear('spreadOutput');
+            
+            let obj1 = { name: 'John', age: 30 };
+            let obj2 = { city: 'NYC', country: 'USA' };
+            
+            log('spreadOutput', 'obj1: ' + JSON.stringify(obj1));
+            log('spreadOutput', 'obj2: ' + JSON.stringify(obj2));
+            
+            // Spread copy
+            let copy = { ...obj1 };
+            log('spreadOutput', '\nSpread copy {...obj1}: ' + JSON.stringify(copy));
+            
+            // Object.assign
+            let copy2 = Object.assign({}, obj1);
+            log('spreadOutput', 'Object.assign({}, obj1): ' + JSON.stringify(copy2));
+            
+            // Merge
+            let merged = { ...obj1, ...obj2 };
+            log('spreadOutput', '\nMerge {...obj1, ...obj2}: ' + JSON.stringify(merged));
+            
+            // Override
+            let updated = { ...obj1, age: 31, city: 'LA' };
+            log('spreadOutput', 'Override {...obj1, age: 31, city: "LA"}: ' + JSON.stringify(updated));
+        }
+
+        function objectDestructuring() {
+            clear('destructOutput');
+            
+            let user = { name: 'John', age: 30, city: 'NYC', email: 'john@example.com' };
+            
+            log('destructOutput', 'Object: ' + JSON.stringify(user));
+            
+            // Basic
+            let { name, age } = user;
+            log('destructOutput', '\nBasic destructuring:');
+            log('destructOutput', 'let { name, age } = user;');
+            log('destructOutput', 'name = ' + name + ', age = ' + age);
+            
+            // Renaming
+            let { name: userName, city: userCity } = user;
+            log('destructOutput', '\nWith renaming:');
+            log('destructOutput', 'let { name: userName, city: userCity } = user;');
+            log('destructOutput', 'userName = ' + userName + ', userCity = ' + userCity);
+            
+            // Default values
+            let { email, phone = 'N/A' } = user;
+            log('destructOutput', '\nWith default values:');
+            log('destructOutput', 'let { email, phone = "N/A" } = user;');
+            log('destructOutput', 'email = ' + email + ', phone = ' + phone);
+            
+            // Rest
+            let { name: n, ...rest } = user;
+            log('destructOutput', '\nRest properties:');
+            log('destructOutput', 'let { name: n, ...rest } = user;');
+            log('destructOutput', 'n = ' + n);
+            log('destructOutput', 'rest = ' + JSON.stringify(rest));
+        }
+
+        function objectMethods2() {
+            clear('methods2Output');
+            
+            let user = {
+                name: 'John',
+                age: 30,
+                greet: function() {
+                    return 'Hello ' + this.name;
+                },
+                introduce() {
+                    return 'I am ' + this.name + ' and I am ' + this.age + ' years old';
+                },
+                getInfo: function() {
+                    return { name: this.name, age: this.age };
+                }
+            };
+            
+            log('methods2Output', 'Object with methods:');
+            log('methods2Output', 'name: ' + user.name);
+            log('methods2Output', 'age: ' + user.age);
+            
+            log('methods2Output', '\nCalling methods:');
+            log('methods2Output', 'user.greet(): ' + user.greet());
+            log('methods2Output', 'user.introduce(): ' + user.introduce());
+            log('methods2Output', 'user.getInfo(): ' + JSON.stringify(user.getInfo()));
+        }
+
+        function gettersSetters() {
+            clear('getterOutput');
+            
+            let user = {
+                _age: 30,
+                _balance: 1000,
+                get age() {
+                    return this._age;
+                },
+                set age(value) {
+                    if (value > 0) {
+                        this._age = value;
+                    } else {
+                        console.log('Age must be positive');
+                    }
+                },
+                get balance() {
+                    return this._balance;
+                },
+                set balance(value) {
+                    if (value >= 0) {
+                        this._balance = value;
+                    }
+                }
+            };
+            
+            log('getterOutput', 'Getter example:');
+            log('getterOutput', 'user.age (getter): ' + user.age);
+            
+            user.age = 31;
+            log('getterOutput', '\nAfter user.age = 31:');
+            log('getterOutput', 'user.age: ' + user.age);
+            
+            log('getterOutput', '\nBalance getter:');
+            log('getterOutput', 'user.balance: ' + user.balance);
+            
+            user.balance = 1500;
+            log('getterOutput', 'After user.balance = 1500:');
+            log('getterOutput', 'user.balance: ' + user.balance);
+            
+            log('getterOutput', '\nTrying invalid age:');
+            user.age = -5;
+            log('getterOutput', 'user.age after setting -5: ' + user.age + ' (unchanged)');
+        }
+
+        function freezeObjects() {
+            clear('freezeOutput');
+            
+            let user = { name: 'John', age: 30 };
+            
+            log('freezeOutput', 'Original: ' + JSON.stringify(user));
+            
+            // Freeze
+            Object.freeze(user);
+            log('freezeOutput', '\nAfter Object.freeze():');
+            log('freezeOutput', 'Object.isFrozen(user): ' + Object.isFrozen(user));
+            
+            user.name = 'Jane';
+            log('freezeOutput', 'Trying user.name = "Jane": ' + JSON.stringify(user) + ' (unchanged)');
+            
+            user.email = 'john@example.com';
+            log('freezeOutput', 'Trying user.email = "john@example.com": ' + JSON.stringify(user) + ' (unchanged)');
+            
+            // Seal example
+            let car = { brand: 'Toyota', model: 'Camry' };
+            Object.seal(car);
+            log('freezeOutput', '\nAfter Object.seal() on car:');
+            log('freezeOutput', 'Object.isSealed(car): ' + Object.isSealed(car));
+            
+            car.model = 'Corolla';
+            log('freezeOutput', 'Changing model to "Corolla": ' + JSON.stringify(car) + ' (allowed)');
+            
+            car.color = 'Red';
+            log('freezeOutput', 'Trying car.color = "Red": ' + JSON.stringify(car) + ' (not allowed)');
+        }
+
+        function classesExample() {
+            clear('classOutput');
+            
+            class Person {
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                greet() {
+                    return 'Hi, I am ' + this.name;
+                }
+                getInfo() {
+                    return this.name + ' is ' + this.age + ' years old';
+                }
+            }
+            
+            let person1 = new Person('John', 30);
+            let person2 = new Person('Jane', 28);
+            
+            log('classOutput', 'Class Person created');
+            log('classOutput', '\nInstance 1:');
+            log('classOutput', 'Name: ' + person1.name);
+            log('classOutput', 'Age: ' + person1.age);
+            log('classOutput', 'person1.greet(): ' + person1.greet());
+            
+            log('classOutput', '\nInstance 2:');
+            log('classOutput', 'Name: ' + person2.name);
+            log('classOutput', 'Age: ' + person2.age);
+            log('classOutput', 'person2.getInfo(): ' + person2.getInfo());
+            
+            log('classOutput', '\ninstance checks:');
+            log('classOutput', 'person1 instanceof Person: ' + (person1 instanceof Person));
+            log('classOutput', 'typeof person1: ' + typeof person1);
+        }
+
+        function propertyDescriptors() {
+            clear('descriptorOutput');
+            
+            let obj = {};
+            
+            Object.defineProperty(obj, 'name', {
+                value: 'John',
+                writable: true,
+                enumerable: true,
+                configurable: true
+            });
+            
+            Object.defineProperty(obj, 'id', {
+                value: 123,
+                writable: false,
+                enumerable: true,
+                configurable: false
+            });
+            
+            log('descriptorOutput', 'Properties defined with Object.defineProperty()');
+            
+            log('descriptorOutput', '\nProperty descriptor for "name":');
+            let nameDesc = Object.getOwnPropertyDescriptor(obj, 'name');
+            log('descriptorOutput', JSON.stringify(nameDesc, null, 2));
+            
+            log('descriptorOutput', '\nProperty descriptor for "id":');
+            let idDesc = Object.getOwnPropertyDescriptor(obj, 'id');
+            log('descriptorOutput', JSON.stringify(idDesc, null, 2));
+            
+            log('descriptorOutput', '\nCurrent values:');
+            log('descriptorOutput', 'obj.name: ' + obj.name);
+            log('descriptorOutput', 'obj.id: ' + obj.id);
+            
+            obj.name = 'Jane';
+            log('descriptorOutput', '\nAfter obj.name = "Jane":');
+            log('descriptorOutput', 'obj.name: ' + obj.name + ' (writable: true)');
+            
+            obj.id = 456;
+            log('descriptorOutput', 'After obj.id = 456:');
+            log('descriptorOutput', 'obj.id: ' + obj.id + ' (writable: false, so unchanged)');
+        }
+
+        // Run first example on load
+        window.addEventListener('load', createObjects);
+    </script>
+</body>
+</html>
