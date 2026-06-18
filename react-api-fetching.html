@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetching API Data with React useEffect</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .code-box {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .demo-area {
+            background: #e8f4f8;
+            border: 2px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+        .component-box {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+            font-weight: bold;
+        }
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .data-display {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .user-card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .user-card h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+        .user-card p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 10px 0;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Fetching API Data with React useEffect</h1>
+
+        <!-- Section 1: Basic Fetch -->
+        <div class="section">
+            <h2>1. Basic API Fetch with useEffect</h2>
+            <div class="code-box"><code>
+import { useState, useEffect } from 'react'
+
+function DataFetcher() {
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    
+    useEffect(() =&gt; {
+        fetch('https://api.example.com/data')
+            .then(response =&gt; response.json())
+            .then(data =&gt; setData(data))
+            .catch(error =&gt; setError(error))
+            .finally(() =&gt; setLoading(false))
+    }, []) // Empty dependency - fetch once on mount
+    
+    if (loading) return &lt;p&gt;Loading...&lt;/p&gt;
+    if (error) return &lt;p&gt;Error: {error.message}&lt;/p&gt;
+    return &lt;div&gt;{JSON.stringify(data)}&lt;/div&gt;
+}
+            </code></div>
+            <div id="component1"></div>
+        </div>
+
+        <!-- Section 2: Loading States -->
+        <div class="section">
+            <h2>2. Managing Loading States</h2>
+            <div class="code-box"><code>
+// Track loading, success, and error states
+const [loading, setLoading] = useState(true)
+const [error, setError] = useState(null)
+const [data, setData] = useState(null)
+
+useEffect(() =&gt; {
+    const fetchData = async () =&gt; {
+        try {
+            setLoading(true)
+            setError(null)
+            
+            const response = await fetch(url)
+            if (!response.ok) throw new Error('Failed to fetch')
+            
+            const json = await response.json()
+            setData(json)
+        } catch (err) {
+            setError(err.message)
+        } finally {
+            setLoading(false)
+        }
+    }
+    
+    fetchData()
+}, [url])
+            </code></div>
+            <div id="component2"></div>
+        </div>
+
+        <!-- Section 3: Async/Await Pattern -->
+        <div class="section">
+            <h2>3. Using Async/Await Pattern</h2>
+            <div class="code-box"><code>
+useEffect(() =&gt; {
+    const fetchData = async () =&gt; {
+        try {
+            // Fetch data
+            const response = await fetch(url)
+            
+            // Check response status
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            
+            // Parse JSON
+            const data = await response.json()
+            
+            // Update state
+            setData(data)
+        } catch (error) {
+            setError(error)
+            console.error('Fetch error:', error)
+        } finally {
+            setLoading(false)
+        }
+    }
+    
+    fetchData()
+}, [url])
+            </code></div>
+            <div id="component3"></div>
+        </div>
+
+        <!-- Section 4: Dependency Array -->
+        <div class="section">
+            <h2>4. Dependency Array Control</h2>
+            <div class="code-box"><code>
+// No dependency - runs on every render (BAD - infinite loop!)
+useEffect(() =&gt; { fetchData() })
+
+// Empty dependency - runs once on mount
+useEffect(() =&gt; { fetchData() }, [])
+
+// With dependency - runs when dependency changes
+useEffect(() =&gt; { fetchData() }, [userId, url])
+
+// Multiple dependencies
+useEffect(() =&gt; { 
+    fetchData() 
+}, [searchQuery, page, sortBy])
+            </code></div>
+            <div id="component4"></div>
+        </div>
+
+        <!-- Section 5: Query Parameters -->
+        <div class="section">
+            <h2>5. Fetching with Query Parameters</h2>
+            <div class="code-box"><code>
+const [search, setSearch] = useState('')
+const [page, setPage] = useState(1)
+
+useEffect(() =&gt; {
+    const params = new URLSearchParams({
+        q: search,
+        page: page,
+        limit: 10
+    })
+    
+    fetch(`https://api.example.com/search?${params}`)
+        .then(res =&gt; res.json())
+        .then(data =&gt; setData(data))
+        .catch(err =&gt; setError(err))
+}, [search, page])
+
+&lt;input 
+    value={search}
+    onChange={(e) =&gt; {
+        setSearch(e.target.value)
+        setPage(1) // Reset to first page
+    }}
+/&gt;
+            </code></div>
+            <div id="component5"></div>
+        </div>
+
+        <!-- Section 6: Error Handling -->
+        <div class="section">
+            <h2>6. Error Handling & Retry Logic</h2>
+            <div class="code-box"><code>
+const [error, setError] = useState(null)
+const [retryCount, setRetryCount] = useState(0)
+
+useEffect(() =&gt; {
+    const fetchWithRetry = async () =&gt; {
+        try {
+            const response = await fetch(url)
+            
+            if (!response.ok) {
+                throw new Error(`Status: ${response.status}`)
+            }
+            
+            const data = await response.json()
+            setData(data)
+            setError(null)
+            setRetryCount(0)
+        } catch (err) {
+            if (retryCount &lt; 3) {
+                setTimeout(() =&gt; {
+                    setRetryCount(retryCount + 1)
+                }, 2000) // Retry after 2 seconds
+            } else {
+                setError(err.message)
+            }
+        }
+    }
+    
+    fetchWithRetry()
+}, [url, retryCount])
+
+const retry = () =&gt; setRetryCount(0)
+            </code></div>
+            <div id="component6"></div>
+        </div>
+
+        <!-- Section 7: Request Headers & Auth -->
+        <div class="section">
+            <h2>7. Custom Headers & Authentication</h2>
+            <div class="code-box"><code>
+useEffect(() =&gt; {
+    const token = localStorage.getItem('authToken')
+    
+    const fetchWithAuth = async () =&gt; {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+                'Custom-Header': 'value'
+            }
+        })
+        
+        if (response.status === 401) {
+            // Token expired, redirect to login
+            window.location.href = '/login'
+        }
+        
+        const data = await response.json()
+        setData(data)
+    }
+    
+    fetchWithAuth()
+}, [url])
+            </code></div>
+            <div id="component7"></div>
+        </div>
+
+        <!-- Section 8: Cleanup Function -->
+        <div class="section">
+            <h2>8. Cleanup Function & AbortController</h2>
+            <div class="code-box"><code>
+useEffect(() =&gt; {
+    const controller = new AbortController()
+    
+    const fetchData = async () =&gt; {
+        try {
+            const response = await fetch(url, {
+                signal: controller.signal
+            })
+            const data = await response.json()
+            setData(data)
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                console.log('Fetch was cancelled')
+            } else {
+                setError(error)
+            }
+        }
+    }
+    
+    fetchData()
+    
+    // Cleanup - cancel fetch if component unmounts
+    return () =&gt; controller.abort()
+    
+}, [url])
+            </code></div>
+            <div id="component8"></div>
+        </div>
+
+        <!-- Section 9: POST Request -->
+        <div class="section">
+            <h2>9. POST Request - Creating Data</h2>
+            <div class="code-box"><code>
+const [formData, setFormData] = useState({ name: '', email: '' })
+const [submitted, setSubmitted] = useState(false)
+
+const handleSubmit = async (e) =&gt; {
+    e.preventDefault()
+    
+    try {
+        const response = await fetch('https://api.example.com/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        
+        if (!response.ok) throw new Error('Failed to create')
+        
+        const newData = await response.json()
+        setSubmitted(true)
+        setFormData({ name: '', email: '' })
+    } catch (error) {
+        setError(error.message)
+    }
+}
+            </code></div>
+            <div id="component9"></div>
+        </div>
+
+        <!-- Section 10: PUT/DELETE Request -->
+        <div class="section">
+            <h2>10. PUT & DELETE Requests</h2>
+            <div class="code-box"><code>
+// PUT - Update data
+const updateData = async (id, updates) =&gt; {
+    const response = await fetch(`https://api.example.com/users/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+    })
+    return response.json()
+}
+
+// DELETE - Delete data
+const deleteData = async (id) =&gt; {
+    const response = await fetch(`https://api.example.com/users/${id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
+    })
+    return response.json()
+}
+
+// PATCH - Partial update
+const patchData = async (id, updates) =&gt; {
+    const response = await fetch(`https://api.example.com/users/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+    })
+    return response.json()
+}
+            </code></div>
+            <div id="component10"></div>
+        </div>
+
+        <!-- Section 11: Custom Hook -->
+        <div class="section">
+            <h2>11. Custom Hook - useFetch</h2>
+            <div class="code-box"><code>
+// Reusable hook for data fetching
+function useFetch(url) {
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    
+    useEffect(() =&gt; {
+        const controller = new AbortController()
+        
+        const fetchData = async () =&gt; {
+            try {
+                setLoading(true)
+                const response = await fetch(url, { signal: controller.signal })
+                
+                if (!response.ok) throw new Error('Fetch failed')
+                
+                const json = await response.json()
+                setData(json)
+                setError(null)
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    setError(error)
+                }
+            } finally {
+                setLoading(false)
+            }
+        }
+        
+        fetchData()
+        return () =&gt; controller.abort()
+    }, [url])
+    
+    return { data, loading, error }
+}
+
+// Usage
+function MyComponent() {
+    const { data, loading, error } = useFetch('https://api.example.com/data')
+    // ...
+}
+            </code></div>
+            <div id="component11"></div>
+        </div>
+
+        <!-- Section 12: Caching & Optimization -->
+        <div class="section">
+            <h2>12. Caching & Performance Optimization</h2>
+            <div class="code-box"><code>
+// Simple cache implementation
+const cache = {}
+
+function useFetchWithCache(url) {
+    const [data, setData] = useState(cache[url] || null)
+    const [loading, setLoading] = useState(!cache[url])
+    const [error, setError] = useState(null)
+    
+    useEffect(() =&gt; {
+        if (cache[url]) {
+            setData(cache[url])
+            setLoading(false)
+            return
+        }
+        
+        const fetchData = async () =&gt; {
+            try {
+                const response = await fetch(url)
+                const json = await response.json()
+                
+                cache[url] = json // Store in cache
+                setData(json)
+            } catch (err) {
+                setError(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        
+        fetchData()
+    }, [url])
+    
+    return { data, loading, error }
+}
+            </code></div>
+            <div id="component12"></div>
+        </div>
+
+        <!-- Section 13: Multiple Concurrent Requests -->
+        <div class="section">
+            <h2>13. Multiple Concurrent Requests</h2>
+            <div class="code-box"><code>
+useEffect(() =&gt; {
+    const fetchMultiple = async () =&gt; {
+        try {
+            // Fetch multiple endpoints in parallel
+            const [users, posts, comments] = await Promise.all([
+                fetch('/api/users').then(r =&gt; r.json()),
+                fetch('/api/posts').then(r =&gt; r.json()),
+                fetch('/api/comments').then(r =&gt; r.json())
+            ])
+            
+            setData({ users, posts, comments })
+        } catch (error) {
+            setError(error)
+        }
+    }
+    
+    fetchMultiple()
+}, [])
+
+// Or use Promise.allSettled for mixed success/failure
+const results = await Promise.allSettled([
+    fetch('/api/1').then(r =&gt; r.json()),
+    fetch('/api/2').then(r =&gt; r.json())
+])
+            </code></div>
+            <div id="component13"></div>
+        </div>
+
+        <!-- Section 14: Pagination -->
+        <div class="section">
+            <h2>14. Pagination Implementation</h2>
+            <div class="code-box"><code>
+function PaginatedList() {
+    const [page, setPage] = useState(1)
+    const [data, setData] = useState([])
+    const [totalPages, setTotalPages] = useState(0)
+    
+    const pageSize = 10
+    
+    useEffect(() =&gt; {
+        const fetchPage = async () =&gt; {
+            const response = await fetch(
+                `/api/items?page=${page}&limit=${pageSize}`
+            )
+            const json = await response.json()
+            
+            setData(json.items)
+            setTotalPages(Math.ceil(json.total / pageSize))
+        }
+        
+        fetchPage()
+    }, [page])
+    
+    return (
+        &lt;div&gt;
+            {data.map(item =&gt; &lt;div key={item.id}&gt;{item.name}&lt;/div&gt;)}
+            
+            &lt;button onClick={() =&gt; setPage(page - 1)} disabled={page === 1}&gt;
+                Previous
+            &lt;/button&gt;
+            &lt;span&gt;Page {page} of {totalPages}&lt;/span&gt;
+            &lt;button onClick={() =&gt; setPage(page + 1)} disabled={page === totalPages}&gt;
+                Next
+            &lt;/button&gt;
+        &lt;/div&gt;
+    )
+}
+            </code></div>
+            <div id="component14"></div>
+        </div>
+
+        <!-- Section 15: Real-world Example -->
+        <div class="section">
+            <h2>15. Real-world Example: User Search API</h2>
+            <div class="code-box"><code>
+function UserSearch() {
+    const [query, setQuery] = useState('')
+    const [results, setResults] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    
+    useEffect(() =&gt; {
+        if (!query.trim()) {
+            setResults([])
+            return
+        }
+        
+        const timer = setTimeout(() =&gt; {
+            setLoading(true)
+            
+            fetch(`/api/users/search?q=${encodeURIComponent(query)}`)
+                .then(r =&gt; r.json())
+                .then(data =&gt; {
+                    setResults(data)
+                    setError(null)
+                })
+                .catch(err =&gt; setError(err))
+                .finally(() =&gt; setLoading(false))
+        }, 500) // Debounce 500ms
+        
+        return () =&gt; clearTimeout(timer)
+    }, [query])
+    
+    return (
+        &lt;div&gt;
+            &lt;input 
+                value={query}
+                onChange={(e) =&gt; setQuery(e.target.value)}
+                placeholder="Search users..."
+            /&gt;
+            {loading && &lt;p&gt;Loading...&lt;/p&gt;}
+            {error && &lt;p&gt;Error: {error.message}&lt;/p&gt;}
+            {results.map(user =&gt; &lt;div key={user.id}&gt;{user.name}&lt;/div&gt;)}
+        &lt;/div&gt;
+    )
+}
+            </code></div>
+            <div id="component15"></div>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React
+
+        // 1. Basic Fetch
+        function BasicFetch() {
+            const [data, setData] = useState(null)
+            const [loading, setLoading] = useState(false)
+            const [error, setError] = useState(null)
+
+            const fetchData = () => {
+                setLoading(true)
+                setError(null)
+
+                fetch('https://jsonplaceholder.typicode.com/users/1')
+                    .then(response => response.json())
+                    .then(data => {
+                        setData(data)
+                        setLoading(false)
+                    })
+                    .catch(error => {
+                        setError(error.message)
+                        setLoading(false)
+                    })
+            }
+
+            useEffect(() => {
+                fetchData()
+            }, [])
+
+            return (
+                <div className="component-box">
+                    <button onClick={fetchData}>Fetch User Data</button>
+                    {loading && <div className="loading"><div className="spinner"></div>Loading...</div>}
+                    {error && <div className="error">❌ Error: {error}</div>}
+                    {data && (
+                        <div className="data-display">
+                            <strong>User Data:</strong>
+                            {JSON.stringify(data, null, 2)}
+                        </div>
+                    )}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><BasicFetch /></div>,
+            document.getElementById('component1')
+        )
+
+        // 2. Loading States
+        function LoadingStates() {
+            const [data, setData] = useState(null)
+            const [loading, setLoading] = useState(false)
+            const [error, setError] = useState(null)
+
+            const fetchWithStates = async () => {
+                try {
+                    setLoading(true)
+                    setError(null)
+                    setData(null)
+
+                    const response = await fetch('https://jsonplaceholder.typicode.com/posts/1')
+                    if (!response.ok) throw new Error('Failed to fetch')
+
+                    const json = await response.json()
+                    setData(json)
+                } catch (err) {
+                    setError(err.message)
+                } finally {
+                    setLoading(false)
+                }
+            }
+
+            return (
+                <div className="component-box">
+                    <button onClick={fetchWithStates} disabled={loading}>
+                        {loading ? 'Loading...' : 'Fetch Post'}
+                    </button>
+                    {loading && <div className="loading"><div className="spinner"></div>Processing...</div>}
+                    {error && <div className="error">❌ {error}</div>}
+                    {data && <div className="success">✓ Data loaded: {data.title}</div>}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><LoadingStates /></div>,
+            document.getElementById('component2')
+        )
+
+        // 3. Async/Await
+        function AsyncAwaitExample() {
+            const [data, setData] = useState(null)
+            const [loading, setLoading] = useState(false)
+            const [error, setError] = useState(null)
+
+            const fetchWithAsyncAwait = async () => {
+                try {
+                    setLoading(true)
+                    setError(null)
+
+                    const response = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+                    if (!response.ok) throw new Error(`Status: ${response.status}`)
+
+                    const data = await response.json()
+                    setData(data)
+                } catch (error) {
+                    setError(error.message)
+                } finally {
+                    setLoading(false)
+                }
+            }
+
+            useEffect(() => {
+                fetchWithAsyncAwait()
+            }, [])
+
+            return (
+                <div className="component-box">
+                    <button onClick={fetchWithAsyncAwait} disabled={loading}>Fetch Todo</button>
+                    {loading && <div className="loading"><div className="spinner"></div>Fetching...</div>}
+                    {error && <div className="error">Error: {error}</div>}
+                    {data && (
+                        <div className="success">
+                            <p>✓ <strong>{data.title}</strong></p>
+                            <p>Completed: {data.completed ? 'Yes' : 'No'}</p>
+                        </div>
+                    )}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><AsyncAwaitExample /></div>,
+            document.getElementById('component3')
+        )
+
+        // 4. Dependency Array
+        function DependencyArray() {
+            const [userId, setUserId] = useState(1)
+            const [user, setUser] = useState(null)
+            const [loading, setLoading] = useState(false)
+
+            useEffect(() => {
+                setLoading(true)
+                fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        setUser(data)
+                        setLoading(false)
+                    })
+            }, [userId])
+
+            return (
+                <div className="component-box">
+                    <div>
+                        <button onClick={() => setUserId(prev => Math.max(1, prev - 1))}>← Previous</button>
+                        <span style={{ margin: '0 10px' }}>User {userId}</span>
+                        <button onClick={() => setUserId(prev => Math.min(10, prev + 1))}>Next →</button>
+                    </div>
+                    {loading && <div className="loading">Loading...</div>}
+                    {user && (
+                        <div className="user-card">
+                            <h4>{user.name}</h4>
+                            <p><strong>Email:</strong> {user.email}</p>
+                            <p><strong>City:</strong> {user.address.city}</p>
+                        </div>
+                    )}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><DependencyArray /></div>,
+            document.getElementById('component4')
+        )
+
+        // 5. Query Parameters
+        function QueryParameters() {
+            const [searchTerm, setSearchTerm] = useState('')
+            const [results, setResults] = useState([])
+            const [loading, setLoading] = useState(false)
+
+            useEffect(() => {
+                if (!searchTerm) {
+                    setResults([])
+                    return
+                }
+
+                setLoading(true)
+                const params = new URLSearchParams({
+                    q: searchTerm,
+                    _limit: 5
+                })
+
+                fetch(`https://jsonplaceholder.typicode.com/posts?${params}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        setResults(data)
+                        setLoading(false)
+                    })
+            }, [searchTerm])
+
+            return (
+                <div className="component-box">
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        placeholder="Search posts..."
+                    />
+                    {loading && <div className="loading">Searching...</div>}
+                    {results.length > 0 && (
+                        <div>
+                            <p>Found {results.length} results:</p>
+                            {results.map(post => (
+                                <div key={post.id} style={{ background: '#f0f0f0', padding: '8px', margin: '5px 0', borderRadius: '4px' }}>
+                                    {post.title.substring(0, 50)}...
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><QueryParameters /></div>,
+            document.getElementById('component5')
+        )
+
+        // 6. Error Handling
+        function ErrorHandling() {
+            const [error, setError] = useState(null)
+            const [retryCount, setRetryCount] = useState(0)
+            const [success, setSuccess] = useState(false)
+
+            const fetchWithRetry = async () => {
+                try {
+                    setError(null)
+                    setSuccess(false)
+
+                    // Simulating random failure
+                    if (Math.random() < 0.5 && retryCount < 2) {
+                        throw new Error('Network error - will retry')
+                    }
+
+                    const response = await fetch('https://jsonplaceholder.typicode.com/users/1')
+                    const data = await response.json()
+
+                    setSuccess(true)
+                    setRetryCount(0)
+                } catch (err) {
+                    if (retryCount < 2) {
+                        setError(`Error: ${err.message} (Retry ${retryCount + 1}/2)`)
+                        setTimeout(() => setRetryCount(retryCount + 1), 1000)
+                    } else {
+                        setError('Failed after 2 retries')
+                    }
+                }
+            }
+
+            return (
+                <div className="component-box">
+                    <button onClick={() => { setRetryCount(0); fetchWithRetry(); }}>
+                        Fetch with Retry Logic
+                    </button>
+                    {error && <div className="error">{error}</div>}
+                    {success && <div className="success">✓ Successfully fetched data!</div>}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><ErrorHandling /></div>,
+            document.getElementById('component6')
+        )
+
+        // 7. Headers & Auth
+        function HeadersAuth() {
+            const [data, setData] = useState(null)
+            const [error, setError] = useState(null)
+
+            const fetchWithHeaders = async () => {
+                try {
+                    const response = await fetch('https://jsonplaceholder.typicode.com/users/1', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Custom-Header': 'MyValue'
+                        }
+                    })
+
+                    const json = await response.json()
+                    setData(json)
+                } catch (err) {
+                    setError(err.message)
+                }
+            }
+
+            return (
+                <div className="component-box">
+                    <button onClick={fetchWithHeaders}>Fetch with Custom Headers</button>
+                    {error && <div className="error">Error: {error}</div>}
+                    {data && <div className="success">✓ Headers sent successfully</div>}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><HeadersAuth /></div>,
+            document.getElementById('component7')
+        )
+
+        // 8. Cleanup & AbortController
+        function CleanupExample() {
+            const [data, setData] = useState(null)
+            const [cancelled, setCancelled] = useState(false)
+
+            const fetchWithCleanup = () => {
+                setCancelled(false)
+                const controller = new AbortController()
+
+                const timeoutId = setTimeout(async () => {
+                    try {
+                        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                            signal: controller.signal
+                        })
+                        const json = await response.json()
+                        setData(json.slice(0, 3))
+                    } catch (err) {
+                        if (err.name === 'AbortError') {
+                            setCancelled(true)
+                        }
+                    }
+                }, 500)
+
+                return () => {
+                    clearTimeout(timeoutId)
+                    controller.abort()
+                }
+            }
+
+            return (
+                <div className="component-box">
+                    <button onClick={fetchWithCleanup}>Fetch (Click again to cancel)</button>
+                    {cancelled && <div className="error">Fetch cancelled!</div>}
+                    {data && <div className="success">✓ Fetched {data.length} items</div>}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><CleanupExample /></div>,
+            document.getElementById('component8')
+        )
+
+        // 9. POST Request
+        function PostRequest() {
+            const [formData, setFormData] = useState({ title: '', body: '' })
+            const [submitted, setSubmitted] = useState(false)
+            const [loading, setLoading] = useState(false)
+
+            const handleSubmit = async (e) => {
+                e.preventDefault()
+                setLoading(true)
+
+                try {
+                    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ ...formData, userId: 1 })
+                    })
+
+                    const json = await response.json()
+                    setSubmitted(true)
+                    setFormData({ title: '', body: '' })
+                    setTimeout(() => setSubmitted(false), 3000)
+                } catch (err) {
+                    console.error(err)
+                } finally {
+                    setLoading(false)
+                }
+            }
+
+            return (
+                <div className="component-box">
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            value={formData.title}
+                            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                            placeholder="Post title"
+                            required
+                        />
+                        <textarea
+                            value={formData.body}
+                            onChange={(e) => setFormData({ ...formData, body: e.target.value })}
+                            placeholder="Post body"
+                            required
+                        />
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Posting...' : 'Create Post'}
+                        </button>
+                    </form>
+                    {submitted && <div className="success">✓ Post created successfully!</div>}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><PostRequest /></div>,
+            document.getElementById('component9')
+        )
+
+        // 10. PUT/DELETE
+        function PutDelete() {
+            const [message, setMessage] = useState('')
+
+            const updateData = async () => {
+                try {
+                    const response = await fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ title: 'Updated Title', body: 'Updated Body' })
+                    })
+                    setMessage('✓ PUT request successful')
+                } catch (err) {
+                    setMessage('Error: ' + err.message)
+                }
+            }
+
+            const deleteData = async () => {
+                try {
+                    const response = await fetch('https://jsonplaceholder.typicode.com/posts/1', {
+                        method: 'DELETE'
+                    })
+                    setMessage('✓ DELETE request successful')
+                } catch (err) {
+                    setMessage('Error: ' + err.message)
+                }
+            }
+
+            return (
+                <div className="component-box">
+                    <button onClick={updateData}>PUT (Update)</button>
+                    <button onClick={deleteData}>DELETE</button>
+                    {message && <div className={message.includes('✓') ? 'success' : 'error'}>{message}</div>}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><PutDelete /></div>,
+            document.getElementById('component10')
+        )
+
+        // 11. Custom Hook
+        function useFetch(url) {
+            const [data, setData] = useState(null)
+            const [loading, setLoading] = useState(true)
+            const [error, setError] = useState(null)
+
+            useEffect(() => {
+                const controller = new AbortController()
+
+                const fetchData = async () => {
+                    try {
+                        const response = await fetch(url, { signal: controller.signal })
+                        if (!response.ok) throw new Error('Fetch failed')
+                        const json = await response.json()
+                        setData(json)
+                        setError(null)
+                    } catch (err) {
+                        if (err.name !== 'AbortError') {
+                            setError(err.message)
+                        }
+                    } finally {
+                        setLoading(false)
+                    }
+                }
+
+                fetchData()
+                return () => controller.abort()
+            }, [url])
+
+            return { data, loading, error }
+        }
+
+        function CustomHookExample() {
+            const { data, loading, error } = useFetch('https://jsonplaceholder.typicode.com/users/1')
+
+            return (
+                <div className="component-box">
+                    {loading && <div className="loading">Loading with custom hook...</div>}
+                    {error && <div className="error">Error: {error}</div>}
+                    {data && (
+                        <div className="success">
+                            ✓ Loaded: <strong>{data.name}</strong>
+                        </div>
+                    )}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><CustomHookExample /></div>,
+            document.getElementById('component11')
+        )
+
+        // 12. Caching
+        let cache = {}
+
+        function useFetchWithCache(url) {
+            const [data, setData] = useState(cache[url] || null)
+            const [loading, setLoading] = useState(!cache[url])
+
+            useEffect(() => {
+                if (cache[url]) {
+                    setData(cache[url])
+                    setLoading(false)
+                    return
+                }
+
+                fetch(url)
+                    .then(r => r.json())
+                    .then(json => {
+                        cache[url] = json
+                        setData(json)
+                        setLoading(false)
+                    })
+            }, [url])
+
+            return { data, loading }
+        }
+
+        function CachingExample() {
+            const [userId, setUserId] = useState(1)
+            const { data, loading } = useFetchWithCache(`https://jsonplaceholder.typicode.com/users/${userId}`)
+
+            return (
+                <div className="component-box">
+                    <button onClick={() => setUserId(1)}>User 1 (Cached)</button>
+                    <button onClick={() => setUserId(2)}>User 2 (New)</button>
+                    <button onClick={() => setUserId(1)}>User 1 Again (From Cache)</button>
+                    {loading && <div className="loading">Loading...</div>}
+                    {data && <div className="success">✓ {data.name}</div>}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><CachingExample /></div>,
+            document.getElementById('component12')
+        )
+
+        // 13. Multiple Requests
+        function MultipleRequests() {
+            const [data, setData] = useState(null)
+            const [loading, setLoading] = useState(false)
+
+            const fetchMultiple = async () => {
+                setLoading(true)
+                try {
+                    const [users, posts] = await Promise.all([
+                        fetch('https://jsonplaceholder.typicode.com/users?_limit=2').then(r => r.json()),
+                        fetch('https://jsonplaceholder.typicode.com/posts?_limit=2').then(r => r.json())
+                    ])
+
+                    setData({ users: users.length, posts: posts.length })
+                } finally {
+                    setLoading(false)
+                }
+            }
+
+            return (
+                <div className="component-box">
+                    <button onClick={fetchMultiple} disabled={loading}>Fetch Multiple in Parallel</button>
+                    {loading && <div className="loading">Loading...</div>}
+                    {data && <div className="success">✓ Users: {data.users}, Posts: {data.posts}</div>}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><MultipleRequests /></div>,
+            document.getElementById('component13')
+        )
+
+        // 14. Pagination
+        function Pagination() {
+            const [page, setPage] = useState(1)
+            const [data, setData] = useState([])
+            const [loading, setLoading] = useState(false)
+
+            useEffect(() => {
+                setLoading(true)
+                fetch(`https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=3`)
+                    .then(r => r.json())
+                    .then(json => {
+                        setData(json)
+                        setLoading(false)
+                    })
+            }, [page])
+
+            return (
+                <div className="component-box">
+                    {loading ? (
+                        <div className="loading">Loading page {page}...</div>
+                    ) : (
+                        <>
+                            <p><strong>Page {page} - Posts {(page-1)*3 + 1}-{page*3}</strong></p>
+                            <button onClick={() => setPage(Math.max(1, page - 1))} disabled={page === 1}>← Previous</button>
+                            <button onClick={() => setPage(page + 1)}>Next →</button>
+                        </>
+                    )}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><Pagination /></div>,
+            document.getElementById('component14')
+        )
+
+        // 15. Search Example
+        function UserSearch() {
+            const [query, setQuery] = useState('')
+            const [results, setResults] = useState([])
+            const [loading, setLoading] = useState(false)
+
+            useEffect(() => {
+                if (!query.trim()) {
+                    setResults([])
+                    return
+                }
+
+                const timer = setTimeout(() => {
+                    setLoading(true)
+                    fetch(`https://jsonplaceholder.typicode.com/users`)
+                        .then(r => r.json())
+                        .then(users => {
+                            const filtered = users.filter(u => u.name.toLowerCase().includes(query.toLowerCase()))
+                            setResults(filtered)
+                            setLoading(false)
+                        })
+                }, 300)
+
+                return () => clearTimeout(timer)
+            }, [query])
+
+            return (
+                <div className="component-box">
+                    <input
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        placeholder="Search users..."
+                    />
+                    {loading && <div className="loading">Searching...</div>}
+                    {results.length > 0 && (
+                        <div>
+                            <p>Found {results.length} users:</p>
+                            {results.map(user => (
+                                <div key={user.id} className="user-card">
+                                    <h4>{user.name}</h4>
+                                    <p>{user.email}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><UserSearch /></div>,
+            document.getElementById('component15')
+        )
+    </script>
+</body>
+</html>
