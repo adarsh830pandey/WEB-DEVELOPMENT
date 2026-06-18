@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Variables, Conditions, and Loops</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f4f6fb; color: #1f2937; }
+    main { max-width: 960px; margin: 32px auto; padding: 24px; background: #ffffff; border-radius: 18px; box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); }
+    h1, h2 { color: #111827; }
+    p { line-height: 1.7; }
+    pre { background: #0f172a; color: #f8fafc; padding: 18px; border-radius: 12px; overflow-x: auto; }
+    .output { margin-top: 20px; padding: 18px; border-radius: 14px; background: #eef2ff; border: 1px solid #c7d2fe; color: #1e293b; }
+    .section { margin-bottom: 28px; }
+    .controls button { background: #2563eb; color: white; border: none; padding: 12px 18px; border-radius: 10px; cursor: pointer; font-size: 1rem; }
+    .controls button:hover { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>JavaScript: Variables, Conditions, and Loops</h1>
+    <p>This page demonstrates basic JavaScript programming concepts with variables, conditional logic, and loops.</p>
+
+    <section class="section">
+      <h2>1. Variables</h2>
+      <p>Variables store values so the program can use them later. In JavaScript, use <code>let</code> or <code>const</code>.</p>
+      <pre><code>const name = 'Aisha';
+let age = 18;
+let isStudent = true;</code></pre>
+    </section>
+
+    <section class="section">
+      <h2>2. Conditions</h2>
+      <p>Use <code>if</code> and <code>else</code> to make decisions based on values.</p>
+      <pre><code>if (age >= 18) {
+  console.log('You are an adult');
+} else {
+  console.log('You are a minor');
+}</code></pre>
+    </section>
+
+    <section class="section">
+      <h2>3. Loops</h2>
+      <p>Loops repeat code until a condition becomes false.</p>
+      <pre><code>for (let i = 1; i <= 5; i++) {
+  console.log(i);
+}</code></pre>
+    </section>
+
+    <section class="section controls">
+      <button id="runDemo">Run demo program</button>
+      <div class="output" id="demoOutput">Click the button to see the results here.</div>
+    </section>
+  </main>
+
+  <script src="js-variables-conditions-loops.js"></script>
+</body>
+</html>
