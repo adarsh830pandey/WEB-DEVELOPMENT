@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .section h2 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .output {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .code-example {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .code-example code {
+            display: block;
+        }
+        .demo-box {
+            background: #e8f4f8;
+            border: 2px solid #667eea;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            min-height: 50px;
+        }
+        .demo-item {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 DOM Manipulation in JavaScript</h1>
+
+        <!-- Selecting Elements -->
+        <div class="section">
+            <h2>1. Selecting DOM Elements</h2>
+            <button onclick="selectElements()">Run Example</button>
+            <div class="code-example"><code>
+// By ID
+document.getElementById('myId')
+
+// By Class
+document.getElementsByClassName('myClass')
+document.querySelectorAll('.myClass')
+
+// By Tag
+document.getElementsByTagName('div')
+
+// Universal selectors
+document.querySelector('.myClass')      // first match
+document.querySelectorAll('div > p')    // all matches
+            </code></div>
+            <div id="selectOutput" class="output"></div>
+        </div>
+
+        <!-- Accessing Element Properties -->
+        <div class="section">
+            <h2>2. Accessing Element Properties</h2>
+            <button onclick="elementProperties()">Run Example</button>
+            <div class="code-example"><code>
+let element = document.getElementById('myElement');
+
+// Content
+element.textContent      // text only
+element.innerHTML        // with HTML tags
+element.innerText        // rendered text
+
+// Attributes
+element.id
+element.className
+element.getAttribute('data-value')
+            </code></div>
+            <div id="element" style="color: #667eea; font-weight: bold; padding: 10px; background: #f0f0f0; margin: 10px 0; border-radius: 4px;">Sample Element with Content</div>
+            <div id="propsOutput" class="output"></div>
+        </div>
+
+        <!-- Modifying Content -->
+        <div class="section">
+            <h2>3. Modifying Element Content</h2>
+            <button onclick="modifyContent()">Run Example</button>
+            <button onclick="resetContent()">Reset</button>
+            <div class="code-example"><code>
+// Text content
+element.textContent = 'New text'
+
+// HTML content
+element.innerHTML = '&lt;strong&gt;Bold Text&lt;/strong&gt;'
+
+// Insert HTML
+element.insertAdjacentHTML('beforeend', '&lt;p&gt;New&lt;/p&gt;')
+            </code></div>
+            <div id="contentDemo" class="demo-box">Original Content</div>
+            <div id="contentOutput" class="output"></div>
+        </div>
+
+        <!-- Modifying Attributes -->
+        <div class="section">
+            <h2>4. Modifying Attributes</h2>
+            <button onclick="modifyAttributes()">Run Example</button>
+            <div class="code-example"><code>
+// Set attribute
+element.setAttribute('id', 'newId')
+element.getAttribute('id')
+element.removeAttribute('id')
+
+// Direct property
+element.id = 'newId'
+element.className = 'myClass'
+
+// Check attribute
+element.hasAttribute('data-value')
+            </code></div>
+            <div id="attrDemo" class="demo-box" data-demo="true">Demo Element</div>
+            <div id="attrOutput" class="output"></div>
+        </div>
+
+        <!-- Modifying Styles -->
+        <div class="section">
+            <h2>5. Modifying Styles</h2>
+            <button onclick="modifyStyles()">Run Example</button>
+            <button onclick="resetStyles()">Reset</button>
+            <div class="code-example"><code>
+// Inline styles
+element.style.color = 'red'
+element.style.backgroundColor = '#f0f0f0'
+element.style.padding = '10px'
+
+// Get computed styles
+getComputedStyle(element).color
+getComputedStyle(element).backgroundColor
+            </code></div>
+            <div id="styleDemo" class="demo-box">Styled Demo</div>
+            <div id="styleOutput" class="output"></div>
+        </div>
+
+        <!-- Modifying Classes -->
+        <div class="section">
+            <h2>6. Modifying CSS Classes</h2>
+            <button onclick="modifyClasses()">Run Example</button>
+            <button onclick="resetClasses()">Reset</button>
+            <style>
+                .active { background: #667eea; color: white; }
+                .highlight { border: 3px solid gold; }
+                .hidden { display: none; }
+            </style>
+            <div class="code-example"><code>
+// Add class
+element.classList.add('active')
+
+// Remove class
+element.classList.remove('highlight')
+
+// Toggle class
+element.classList.toggle('hidden')
+
+// Check class
+element.classList.contains('active')
+            </code></div>
+            <div id="classDemo" class="demo-box">Class Demo</div>
+            <div id="classOutput" class="output"></div>
+        </div>
+
+        <!-- Creating Elements -->
+        <div class="section">
+            <h2>7. Creating and Inserting Elements</h2>
+            <button onclick="createElements()">Run Example</button>
+            <button onclick="resetElements()">Reset</button>
+            <div class="code-example"><code>
+// Create element
+let div = document.createElement('div')
+div.textContent = 'New Element'
+
+// Insert into DOM
+parent.appendChild(div)
+parent.insertBefore(div, sibling)
+element.insertAdjacentElement('beforeend', div)
+            </code></div>
+            <div id="createDemo" class="demo-box"></div>
+            <div id="createOutput" class="output"></div>
+        </div>
+
+        <!-- Removing Elements -->
+        <div class="section">
+            <h2>8. Removing Elements</h2>
+            <button onclick="removeElements()">Run Example</button>
+            <button onclick="resetElements2()">Reset</button>
+            <div class="code-example"><code>
+// Remove element
+element.remove()
+parent.removeChild(element)
+
+// Remove all children
+element.innerHTML = ''
+while (element.firstChild) {
+    element.removeChild(element.firstChild)
+}
+            </code></div>
+            <div id="removeDemo" class="demo-box">
+                <div class="demo-item">Item 1</div>
+                <div class="demo-item">Item 2</div>
+                <div class="demo-item">Item 3</div>
+            </div>
+            <div id="removeOutput" class="output"></div>
+        </div>
+
+        <!-- Parent/Child Navigation -->
+        <div class="section">
+            <h2>9. Navigating DOM Tree</h2>
+            <button onclick="navigateDOM()">Run Example</button>
+            <div class="code-example"><code>
+// Navigation
+element.parentElement
+element.childNodes
+element.children
+element.firstChild
+element.lastChild
+element.nextSibling
+element.previousSibling
+            </code></div>
+            <div id="navDemo" class="demo-box" style="font-size: 12px;">
+                <div>Child 1</div>
+                <div>Child 2</div>
+                <div>Child 3</div>
+            </div>
+            <div id="navOutput" class="output"></div>
+        </div>
+
+        <!-- Cloning Elements -->
+        <div class="section">
+            <h2>10. Cloning Elements</h2>
+            <button onclick="cloneElements()">Run Example</button>
+            <div class="code-example"><code>
+// Shallow clone
+let clone = element.cloneNode(false)
+
+// Deep clone (with children)
+let deepClone = element.cloneNode(true)
+
+// Clone and append
+parent.appendChild(clone)
+            </code></div>
+            <div id="cloneDemo" class="demo-box">
+                Original: <span class="demo-item">Item</span>
+            </div>
+            <div id="cloneOutput" class="output"></div>
+        </div>
+
+        <!-- Getting/Setting Data -->
+        <div class="section">
+            <h2>11. Working with Data Attributes</h2>
+            <button onclick="dataAttributes()">Run Example</button>
+            <div class="code-example"><code>
+// Get data
+element.dataset.userId
+element.dataset.userName
+
+// Set data
+element.dataset.userId = '123'
+element.dataset.userName = 'John'
+
+// HTML: &lt;div data-user-id="123"&gt;&lt;/div&gt;
+            </code></div>
+            <div id="dataDemo" class="demo-box" data-user-id="123" data-user-name="John" data-role="admin">User Data</div>
+            <div id="dataOutput" class="output"></div>
+        </div>
+
+        <!-- Element Dimensions -->
+        <div class="section">
+            <h2>12. Getting Element Dimensions and Position</h2>
+            <button onclick="elementDimensions()">Run Example</button>
+            <div class="code-example"><code>
+// Size
+element.offsetWidth
+element.offsetHeight
+element.clientWidth
+element.clientHeight
+
+// Position
+element.offsetTop
+element.offsetLeft
+element.getBoundingClientRect()
+            </code></div>
+            <div id="dimDemo" class="demo-box" style="width: 200px; height: 100px; background: #667eea; color: white; display: flex; align-items: center; justify-content: center;">
+                Measure Me
+            </div>
+            <div id="dimOutput" class="output"></div>
+        </div>
+
+        <!-- Working with Forms -->
+        <div class="section">
+            <h2>13. Working with Form Elements</h2>
+            <button onclick="formElements()">Run Example</button>
+            <div class="code-example"><code>
+// Get value
+let name = document.getElementById('nameInput').value
+let checked = document.getElementById('checkbox').checked
+let selected = document.getElementById('select').value
+
+// Set value
+element.value = 'new value'
+element.disabled = true
+element.checked = true
+            </code></div>
+            <div class="demo-box">
+                <input type="text" id="nameInput" placeholder="Enter name" value="John Doe">
+                <input type="checkbox" id="demoCheckbox"> Subscribe
+                <select id="demoSelect">
+                    <option>Option 1</option>
+                    <option selected>Option 2</option>
+                    <option>Option 3</option>
+                </select>
+            </div>
+            <div id="formOutput" class="output"></div>
+        </div>
+
+        <!-- Scrolling -->
+        <div class="section">
+            <h2>14. Scrolling and Focus</h2>
+            <button onclick="scrollFocus()">Run Example</button>
+            <div class="code-example"><code>
+// Scroll
+element.scrollIntoView()
+window.scrollTo(0, 100)
+element.scroll(0, 100)
+
+// Focus
+element.focus()
+element.blur()
+document.activeElement  // currently focused
+            </code></div>
+            <div id="scrollDemo" class="demo-box">
+                <input type="text" id="focusInput" placeholder="Click to focus">
+                <button onclick="document.getElementById('focusInput').focus()">Focus Input</button>
+            </div>
+            <div id="scrollOutput" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        function log(output, message) {
+            const element = document.getElementById(output);
+            element.textContent += message + '\n';
+        }
+
+        function clear(output) {
+            document.getElementById(output).textContent = '';
+        }
+
+        function selectElements() {
+            clear('selectOutput');
+            
+            // Create sample elements for demonstration
+            let section = document.querySelector('.section');
+            log('selectOutput', '=== Selecting Elements ===\n');
+            
+            log('selectOutput', 'document.querySelector("h1"):');
+            let h1 = document.querySelector('h1');
+            log('selectOutput', '  ' + h1.textContent + '\n');
+            
+            log('selectOutput', 'document.querySelectorAll(".section").length:');
+            let sections = document.querySelectorAll('.section');
+            log('selectOutput', '  Found ' + sections.length + ' elements\n');
+            
+            log('selectOutput', 'document.querySelectorAll("button").length:');
+            let buttons = document.querySelectorAll('button');
+            log('selectOutput', '  Found ' + buttons.length + ' buttons\n');
+            
+            log('selectOutput', 'document.getElementById("nameInput"):');
+            let input = document.getElementById('nameInput');
+            log('selectOutput', '  Input element found: ' + (input ? 'YES' : 'NO'));
+        }
+
+        function elementProperties() {
+            clear('propsOutput');
+            let element = document.getElementById('element');
+            
+            log('propsOutput', '=== Element Properties ===\n');
+            log('propsOutput', 'element.id: ' + element.id);
+            log('propsOutput', 'element.textContent: ' + element.textContent);
+            log('propsOutput', 'element.tagName: ' + element.tagName);
+            log('propsOutput', 'element.className: ' + element.className);
+            log('propsOutput', '\nelement.style.color: ' + element.style.color);
+            log('propsOutput', 'element.style.fontWeight: ' + element.style.fontWeight);
+            log('propsOutput', '\nComputed style:');
+            let computed = getComputedStyle(element);
+            log('propsOutput', 'computed color: ' + computed.color);
+            log('propsOutput', 'computed padding: ' + computed.padding);
+        }
+
+        function modifyContent() {
+            clear('contentOutput');
+            let element = document.getElementById('contentDemo');
+            
+            log('contentOutput', 'Original: ' + element.textContent + '\n');
+            
+            element.textContent = 'Modified Text Content';
+            log('contentOutput', 'After textContent = "Modified Text Content":');
+            log('contentOutput', '  ' + element.textContent + '\n');
+            
+            element.innerHTML = '<strong>Bold</strong> and <em>Italic</em> Content';
+            log('contentOutput', 'After innerHTML with HTML tags:');
+            log('contentOutput', '  ' + element.innerHTML + '\n');
+            
+            element.insertAdjacentHTML('beforeend', '<br><span style="color: #667eea;">✓ Inserted HTML</span>');
+            log('contentOutput', 'After insertAdjacentHTML beforeend');
+        }
+
+        function resetContent() {
+            document.getElementById('contentDemo').textContent = 'Original Content';
+        }
+
+        function modifyAttributes() {
+            clear('attrOutput');
+            let element = document.getElementById('attrDemo');
+            
+            log('attrOutput', '=== Modifying Attributes ===\n');
+            
+            log('attrOutput', 'Original attributes:');
+            log('attrOutput', '  id: ' + (element.id || 'none'));
+            log('attrOutput', '  data-demo: ' + element.getAttribute('data-demo') + '\n');
+            
+            element.setAttribute('data-user', 'John');
+            log('attrOutput', 'After setAttribute("data-user", "John"):');
+            log('attrOutput', '  data-user: ' + element.getAttribute('data-user'));
+            
+            element.id = 'newAttrDemo';
+            log('attrOutput', '\nAfter element.id = "newAttrDemo":');
+            log('attrOutput', '  id: ' + element.id);
+            
+            log('attrOutput', '\nhasAttribute("data-demo"): ' + element.hasAttribute('data-demo'));
+            log('attrOutput', 'hasAttribute("data-nonexistent"): ' + element.hasAttribute('data-nonexistent'));
+        }
+
+        function modifyStyles() {
+            clear('styleOutput');
+            let element = document.getElementById('styleDemo');
+            
+            log('styleOutput', '=== Modifying Styles ===\n');
+            log('styleOutput', 'Applying styles...\n');
+            
+            element.style.color = 'white';
+            log('styleOutput', 'style.color = "white"');
+            
+            element.style.backgroundColor = '#667eea';
+            log('styleOutput', 'style.backgroundColor = "#667eea"');
+            
+            element.style.padding = '15px';
+            log('styleOutput', 'style.padding = "15px"');
+            
+            element.style.fontWeight = 'bold';
+            log('styleOutput', 'style.fontWeight = "bold"');
+            
+            element.style.borderRadius = '8px';
+            log('styleOutput', 'style.borderRadius = "8px"\n');
+            
+            let computed = getComputedStyle(element);
+            log('styleOutput', 'Computed styles:');
+            log('styleOutput', '  color: ' + computed.color);
+            log('styleOutput', '  backgroundColor: ' + computed.backgroundColor);
+            log('styleOutput', '  padding: ' + computed.padding);
+        }
+
+        function resetStyles() {
+            let element = document.getElementById('styleDemo');
+            element.style.color = '';
+            element.style.backgroundColor = '';
+            element.style.padding = '';
+            element.style.fontWeight = '';
+            element.style.borderRadius = '';
+        }
+
+        function modifyClasses() {
+            clear('classOutput');
+            let element = document.getElementById('classDemo');
+            
+            log('classOutput', '=== Modifying Classes ===\n');
+            log('classOutput', 'Initial classes: ' + element.className + '\n');
+            
+            element.classList.add('active');
+            log('classOutput', 'After classList.add("active"):');
+            log('classOutput', '  classes: ' + element.className);
+            log('classOutput', '  contains "active": ' + element.classList.contains('active') + '\n');
+            
+            element.classList.add('highlight');
+            log('classOutput', 'After classList.add("highlight"):');
+            log('classOutput', '  classes: ' + element.className + '\n');
+            
+            log('classOutput', 'After classList.toggle("hidden"):');
+            element.classList.toggle('hidden');
+            log('classOutput', '  classes: ' + element.className);
+            log('classOutput', '  is hidden: ' + element.classList.contains('hidden'));
+        }
+
+        function resetClasses() {
+            let element = document.getElementById('classDemo');
+            element.classList.remove('active', 'highlight', 'hidden');
+        }
+
+        function createElements() {
+            clear('createOutput');
+            let container = document.getElementById('createDemo');
+            
+            log('createOutput', '=== Creating and Inserting Elements ===\n');
+            
+            for (let i = 1; i <= 3; i++) {
+                let div = document.createElement('div');
+                div.className = 'demo-item';
+                div.textContent = 'Created Item ' + i;
+                container.appendChild(div);
+                log('createOutput', 'Created and appended: Item ' + i);
+            }
+        }
+
+        function resetElements() {
+            document.getElementById('createDemo').innerHTML = '';
+        }
+
+        function removeElements() {
+            clear('removeOutput');
+            let container = document.getElementById('removeDemo');
+            let items = container.querySelectorAll('.demo-item');
+            
+            log('removeOutput', '=== Removing Elements ===\n');
+            log('removeOutput', 'Initial items: ' + items.length + '\n');
+            
+            if (items.length > 0) {
+                log('removeOutput', 'Removing first item using remove()');
+                items[0].remove();
+            }
+            
+            if (items.length > 1) {
+                log('removeOutput', 'Removing second item using parentElement.removeChild()');
+                items[1].parentElement.removeChild(items[1]);
+            }
+            
+            let remaining = container.querySelectorAll('.demo-item');
+            log('removeOutput', '\nRemaining items: ' + remaining.length);
+        }
+
+        function resetElements2() {
+            document.getElementById('removeDemo').innerHTML = `
+                <div class="demo-item">Item 1</div>
+                <div class="demo-item">Item 2</div>
+                <div class="demo-item">Item 3</div>
+            `;
+        }
+
+        function navigateDOM() {
+            clear('navOutput');
+            let container = document.getElementById('navDemo');
+            
+            log('navOutput', '=== Navigating DOM Tree ===\n');
+            log('navOutput', 'Container: ' + container.tagName + '\n');
+            
+            log('navOutput', 'container.children.length: ' + container.children.length);
+            log('navOutput', 'container.childNodes.length: ' + container.childNodes.length + '\n');
+            
+            log('navOutput', 'First child element:');
+            log('navOutput', '  tagName: ' + container.firstElementChild.tagName);
+            log('navOutput', '  textContent: ' + container.firstElementChild.textContent + '\n');
+            
+            log('navOutput', 'Last child element:');
+            log('navOutput', '  textContent: ' + container.lastElementChild.textContent + '\n');
+            
+            log('navOutput', 'All children:');
+            for (let i = 0; i < container.children.length; i++) {
+                log('navOutput', '  Child ' + i + ': ' + container.children[i].textContent);
+            }
+        }
+
+        function cloneElements() {
+            clear('cloneOutput');
+            let container = document.getElementById('cloneDemo');
+            let original = container.querySelector('.demo-item');
+            
+            log('cloneOutput', '=== Cloning Elements ===\n');
+            log('cloneOutput', 'Original: ' + original.textContent + '\n');
+            
+            let shallowClone = original.cloneNode(false);
+            shallowClone.textContent = 'Clone 1 (Shallow)';
+            container.appendChild(shallowClone);
+            log('cloneOutput', 'Created shallow clone');
+            
+            let deepClone = original.cloneNode(true);
+            deepClone.textContent = 'Clone 2 (Deep)';
+            container.appendChild(deepClone);
+            log('cloneOutput', 'Created deep clone\n');
+            
+            let itemCount = container.querySelectorAll('.demo-item').length;
+            log('cloneOutput', 'Total items after cloning: ' + itemCount);
+        }
+
+        function dataAttributes() {
+            clear('dataOutput');
+            let element = document.getElementById('dataDemo');
+            
+            log('dataOutput', '=== Working with Data Attributes ===\n');
+            
+            log('dataOutput', 'Getting data attributes:');
+            log('dataOutput', '  data-user-id: ' + element.dataset.userId);
+            log('dataOutput', '  data-user-name: ' + element.dataset.userName);
+            log('dataOutput', '  data-role: ' + element.dataset.role + '\n');
+            
+            element.dataset.department = 'Engineering';
+            log('dataOutput', 'After setting dataset.department = "Engineering":');
+            log('dataOutput', '  data-department: ' + element.dataset.department + '\n');
+            
+            log('dataOutput', 'All dataset properties:');
+            for (let key in element.dataset) {
+                log('dataOutput', '  ' + key + ': ' + element.dataset[key]);
+            }
+        }
+
+        function elementDimensions() {
+            clear('dimOutput');
+            let element = document.getElementById('dimDemo');
+            
+            log('dimOutput', '=== Element Dimensions ===\n');
+            log('dimOutput', 'Size properties:');
+            log('dimOutput', '  offsetWidth: ' + element.offsetWidth + 'px');
+            log('dimOutput', '  offsetHeight: ' + element.offsetHeight + 'px');
+            log('dimOutput', '  clientWidth: ' + element.clientWidth + 'px');
+            log('dimOutput', '  clientHeight: ' + element.clientHeight + 'px\n');
+            
+            log('dimOutput', 'Position properties:');
+            log('dimOutput', '  offsetTop: ' + element.offsetTop + 'px');
+            log('dimOutput', '  offsetLeft: ' + element.offsetLeft + 'px\n');
+            
+            let rect = element.getBoundingClientRect();
+            log('dimOutput', 'getBoundingClientRect():');
+            log('dimOutput', '  top: ' + Math.round(rect.top));
+            log('dimOutput', '  left: ' + Math.round(rect.left));
+            log('dimOutput', '  width: ' + Math.round(rect.width));
+            log('dimOutput', '  height: ' + Math.round(rect.height));
+        }
+
+        function formElements() {
+            clear('formOutput');
+            
+            log('formOutput', '=== Working with Form Elements ===\n');
+            
+            let nameInput = document.getElementById('nameInput');
+            let checkbox = document.getElementById('demoCheckbox');
+            let select = document.getElementById('demoSelect');
+            
+            log('formOutput', 'Input value:');
+            log('formOutput', '  nameInput.value: ' + nameInput.value + '\n');
+            
+            log('formOutput', 'Checkbox:');
+            log('formOutput', '  checked: ' + checkbox.checked);
+            log('formOutput', '  Setting checked = true');
+            checkbox.checked = true;
+            log('formOutput', '  new checked value: ' + checkbox.checked + '\n');
+            
+            log('formOutput', 'Select:');
+            log('formOutput', '  value: ' + select.value);
+            log('formOutput', '  options.length: ' + select.options.length + '\n');
+            
+            log('formOutput', 'Disabled property:');
+            log('formOutput', '  nameInput.disabled: ' + nameInput.disabled);
+            log('formOutput', '  Setting disabled = true');
+            nameInput.disabled = true;
+            log('formOutput', '  After: nameInput.disabled = ' + nameInput.disabled);
+        }
+
+        function scrollFocus() {
+            clear('scrollOutput');
+            let input = document.getElementById('focusInput');
+            
+            log('scrollOutput', '=== Scrolling and Focus ===\n');
+            
+            log('scrollOutput', 'document.activeElement: ' + document.activeElement.tagName + '\n');
+            
+            log('scrollOutput', 'Focusing on input...');
+            input.focus();
+            log('scrollOutput', 'document.activeElement: ' + document.activeElement.id + '\n');
+            
+            log('scrollOutput', 'Input properties:');
+            log('scrollOutput', '  type: ' + input.type);
+            log('scrollOutput', '  placeholder: ' + input.placeholder + '\n');
+            
+            log('scrollOutput', 'Methods available:');
+            log('scrollOutput', '  element.focus()    - set focus');
+            log('scrollOutput', '  element.blur()     - remove focus');
+            log('scrollOutput', '  element.select()   - select text');
+        }
+
+        window.addEventListener('load', function() {
+            selectElements();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Handling in JavaScript</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #f5576c;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #f5576c;
+            border-radius: 4px;
+        }
+        .section h2 {
+            color: #f5576c;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        button {
+            background: #f5576c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #f093fb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .output {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            max-height: 250px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            font-size: 13px;
+        }
+        .code-example {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .code-example code {
+            display: block;
+        }
+        .demo-box {
+            background: #ffe8ec;
+            border: 2px solid #f5576c;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            min-height: 60px;
+        }
+        .event-btn {
+            background: #f5576c;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .event-btn:hover {
+            background: #f093fb;
+        }
+        input[type="text"], input[type="number"], textarea, select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            width: 200px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            font-family: 'Courier New', monospace;
+        }
+        .event-log {
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+        .event-item {
+            padding: 5px;
+            margin: 2px 0;
+            background: white;
+            border-left: 3px solid #f5576c;
+            padding-left: 8px;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .clear-btn {
+            background: #6c757d;
+            padding: 5px 10px;
+            font-size: 12px;
+            margin: 0 0 10px 0;
+        }
+        .clear-btn:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎪 Event Handling in JavaScript</h1>
+
+        <!-- Click Events -->
+        <div class="section">
+            <h2>1. Click Events</h2>
+            <button onclick="clickExample()">Run Example</button>
+            <div class="code-example"><code>
+// Inline event handler
+&lt;button onclick="handleClick()"&gt;Click Me&lt;/button&gt;
+
+// addEventListener
+element.addEventListener('click', function() {
+    console.log('Clicked!')
+})
+
+// Single vs Double click
+element.addEventListener('click', handleClick)
+element.addEventListener('dblclick', handleDoubleClick)
+            </code></div>
+            <div class="demo-box">
+                <button class="event-btn" onclick="handleClick1()">Single Click</button>
+                <button class="event-btn" ondblclick="handleDoubleClick1()">Double Click</button>
+            </div>
+            <div id="clickOutput" class="output"></div>
+        </div>
+
+        <!-- Mouse Events -->
+        <div class="section">
+            <h2>2. Mouse Events</h2>
+            <button onclick="mouseExample()">Run Example</button>
+            <div class="code-example"><code>
+element.addEventListener('mouseover', handler)
+element.addEventListener('mouseout', handler)
+element.addEventListener('mousemove', handler)
+element.addEventListener('mousedown', handler)
+element.addEventListener('mouseup', handler)
+element.addEventListener('mouseenter', handler)
+element.addEventListener('mouseleave', handler)
+            </code></div>
+            <div class="demo-box" id="mouseDemo" style="background: white; border: 2px solid #f5576c; text-align: center; line-height: 60px;">
+                Hover over this box
+            </div>
+            <div id="mouseOutput" class="output"></div>
+        </div>
+
+        <!-- Keyboard Events -->
+        <div class="section">
+            <h2>3. Keyboard Events</h2>
+            <button onclick="keyboardExample()">Run Example</button>
+            <div class="code-example"><code>
+element.addEventListener('keydown', handler)
+element.addEventListener('keyup', handler)
+element.addEventListener('keypress', handler)
+
+// Event properties
+event.key       // Character pressed
+event.code      // Key code
+event.keyCode   // Numeric code (deprecated)
+event.ctrlKey   // Ctrl pressed?
+event.shiftKey  // Shift pressed?
+            </code></div>
+            <input type="text" id="keyInput" placeholder="Type here to see key events">
+            <div id="keyboardOutput" class="output"></div>
+        </div>
+
+        <!-- Form Events -->
+        <div class="section">
+            <h2>4. Form Events</h2>
+            <button onclick="formExample()">Run Example</button>
+            <div class="code-example"><code>
+input.addEventListener('focus', handler)
+input.addEventListener('blur', handler)
+input.addEventListener('change', handler)
+input.addEventListener('input', handler)
+form.addEventListener('submit', handler)
+            </code></div>
+            <div class="demo-box">
+                <input type="text" id="formInput" placeholder="Focus/Blur events">
+                <button type="button" onclick="testForm()">Test Form</button>
+            </div>
+            <div id="formOutput" class="output"></div>
+        </div>
+
+        <!-- Event Object -->
+        <div class="section">
+            <h2>5. Event Object Properties</h2>
+            <button onclick="eventObjectExample()">Run Example</button>
+            <div class="code-example"><code>
+element.addEventListener('click', function(event) {
+    event.type              // 'click'
+    event.target            // clicked element
+    event.currentTarget     // element listener attached to
+    event.timeStamp         // when event occurred
+    event.clientX, clientY  // mouse coordinates
+    event.preventDefault()  // stop default behavior
+})
+            </code></div>
+            <div class="demo-box">
+                <button class="event-btn" onclick="captureEventObject(event)">Click and See Properties</button>
+            </div>
+            <div id="eventOutput" class="output"></div>
+        </div>
+
+        <!-- preventDefault and stopPropagation -->
+        <div class="section">
+            <h2>6. preventDefault & stopPropagation</h2>
+            <button onclick="preventExample()">Run Example</button>
+            <div class="code-example"><code>
+// Prevent default behavior
+event.preventDefault()      // block link navigation, form submit, etc
+
+// Stop event bubbling
+event.stopPropagation()     // stop event from bubbling up
+
+// Stop event and all handlers
+event.stopImmediatePropagation()
+            </code></div>
+            <div class="demo-box">
+                <a href="#" onclick="handleLink(event); return false;">Link (preventDefault)</a>
+                <br><br>
+                <form onsubmit="handleSubmit(event); return false;">
+                    <input type="text" placeholder="Enter name">
+                    <button type="submit" class="event-btn">Submit (preventDefault)</button>
+                </form>
+            </div>
+            <div id="preventOutput" class="output"></div>
+        </div>
+
+        <!-- Event Bubbling -->
+        <div class="section">
+            <h2>7. Event Bubbling & Capturing</h2>
+            <button onclick="bubblingExample()">Run Example</button>
+            <div class="code-example"><code>
+// Bubbling (default) - events bubble up
+element.addEventListener('click', handler)
+
+// Capturing - events captured going down
+element.addEventListener('click', handler, true)
+
+// Event phases
+event.CAPTURING_PHASE  // 1
+event.AT_TARGET        // 2
+event.BUBBLING_PHASE   // 3
+            </code></div>
+            <div id="bubbleOutput" class="output"></div>
+            <div class="demo-box" id="parent" style="background: #f5576c; color: white; padding: 20px;">
+                <div id="child" style="background: #f093fb; color: white; padding: 20px; margin: 10px 0;">
+                    <button class="event-btn" style="background: white; color: #f5576c;" onclick="handleBubbleClick(event)">
+                        Click Me
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Delegation -->
+        <div class="section">
+            <h2>8. Event Delegation</h2>
+            <button onclick="delegationExample()">Run Example</button>
+            <button class="clear-btn" onclick="resetDelegation()">Clear List</button>
+            <div class="code-example"><code>
+// Instead of adding listener to each item,
+// add one to parent and check event.target
+
+parent.addEventListener('click', function(event) {
+    if (event.target.matches('.item')) {
+        // Handle item click
+    }
+})
+            </code></div>
+            <div class="demo-box" id="delegationContainer">
+                <div class="item" style="padding: 10px; background: white; margin: 5px; border-radius: 4px; cursor: pointer;">Item 1</div>
+                <div class="item" style="padding: 10px; background: white; margin: 5px; border-radius: 4px; cursor: pointer;">Item 2</div>
+                <div class="item" style="padding: 10px; background: white; margin: 5px; border-radius: 4px; cursor: pointer;">Item 3</div>
+            </div>
+            <div id="delegationOutput" class="output"></div>
+        </div>
+
+        <!-- Adding/Removing Listeners -->
+        <div class="section">
+            <h2>9. Adding & Removing Event Listeners</h2>
+            <button onclick="addRemoveExample()">Run Example</button>
+            <div class="code-example"><code>
+// Add listener
+element.addEventListener('click', myHandler)
+
+// Remove listener (need same function reference)
+element.removeEventListener('click', myHandler)
+
+// One-time listener
+element.addEventListener('click', handler, { once: true })
+            </code></div>
+            <div class="demo-box">
+                <button class="event-btn" id="toggleBtn">Add Listener</button>
+                <button class="event-btn" id="testBtn" style="display:none;">Test Button</button>
+            </div>
+            <div id="addRemoveOutput" class="output"></div>
+        </div>
+
+        <!-- Custom Events -->
+        <div class="section">
+            <h2>10. Custom Events</h2>
+            <button onclick="customEventExample()">Run Example</button>
+            <div class="code-example"><code>
+// Create custom event
+let event = new CustomEvent('myEvent', {
+    detail: { message: 'Hello' }
+})
+
+// Dispatch event
+element.dispatchEvent(event)
+
+// Listen for custom event
+element.addEventListener('myEvent', function(e) {
+    console.log(e.detail.message)
+})
+            </code></div>
+            <div class="demo-box">
+                <button class="event-btn" onclick="triggerCustom()">Trigger Custom Event</button>
+            </div>
+            <div id="customOutput" class="output"></div>
+        </div>
+
+        <!-- Window Events -->
+        <div class="section">
+            <h2>11. Window Events</h2>
+            <button onclick="windowEventExample()">Run Example</button>
+            <div class="code-example"><code>
+window.addEventListener('load', handler)
+window.addEventListener('beforeunload', handler)
+window.addEventListener('resize', handler)
+window.addEventListener('scroll', handler)
+window.addEventListener('orientationchange', handler)
+            </code></div>
+            <div id="windowOutput" class="output"></div>
+        </div>
+
+        <!-- Timer Events -->
+        <div class="section">
+            <h2>12. Working with setTimeout/setInterval</h2>
+            <button onclick="timerExample()">Run Example</button>
+            <div class="code-example"><code>
+// Run once after delay
+setTimeout(function() {
+    console.log('Executed after 2 seconds')
+}, 2000)
+
+// Run repeatedly
+let id = setInterval(function() {
+    console.log('Repeated every 1 second')
+}, 1000)
+
+// Stop interval
+clearInterval(id)
+clearTimeout(timerId)
+            </code></div>
+            <div class="demo-box">
+                <button class="event-btn" id="timerBtn">Start Timer</button>
+                <button class="event-btn" id="cancelBtn" style="display:none;">Stop Timer</button>
+            </div>
+            <div id="timerOutput" class="output"></div>
+        </div>
+
+        <!-- Debouncing -->
+        <div class="section">
+            <h2>13. Debouncing & Throttling</h2>
+            <button onclick="debounceExample()">Run Example</button>
+            <div class="code-example"><code>
+// Debounce - wait for pause before executing
+function debounce(func, delay) {
+    let timerId;
+    return function() {
+        clearTimeout(timerId);
+        timerId = setTimeout(func, delay);
+    };
+}
+
+// Use it
+input.addEventListener('input', debounce(handleInput, 500))
+            </code></div>
+            <input type="text" id="debounceInput" placeholder="Type to trigger debounced search">
+            <div id="debounceOutput" class="output"></div>
+        </div>
+
+        <!-- Practical Example -->
+        <div class="section">
+            <h2>14. Practical Example: Todo List</h2>
+            <div class="demo-box">
+                <input type="text" id="todoInput" placeholder="Add a new todo">
+                <button class="event-btn" onclick="addTodo()">Add</button>
+                <ul id="todoList" style="margin-top: 10px; padding-left: 20px;"></ul>
+            </div>
+            <div id="todoOutput" class="output"></div>
+        </div>
+    </div>
+
+    <script>
+        let eventLogs = {};
+
+        function log(output, message) {
+            if (!eventLogs[output]) eventLogs[output] = [];
+            eventLogs[output].push(message);
+            const element = document.getElementById(output);
+            element.textContent = eventLogs[output].join('\n');
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function clear(output) {
+            eventLogs[output] = [];
+            document.getElementById(output).textContent = '';
+        }
+
+        function clearOldest(output, maxLines = 10) {
+            if (!eventLogs[output]) eventLogs[output] = [];
+            if (eventLogs[output].length > maxLines) {
+                eventLogs[output] = eventLogs[output].slice(-maxLines);
+            }
+            const element = document.getElementById(output);
+            element.textContent = eventLogs[output].join('\n');
+        }
+
+        // Click Events
+        function clickExample() {
+            clear('clickOutput');
+            log('clickOutput', 'Click and Double-click events demonstrated');
+        }
+
+        function handleClick1() {
+            log('clickOutput', '✓ Single click detected!');
+        }
+
+        function handleDoubleClick1() {
+            log('clickOutput', '✓ Double click detected!');
+        }
+
+        // Mouse Events
+        function mouseExample() {
+            clear('mouseOutput');
+            let demo = document.getElementById('mouseDemo');
+            
+            demo.addEventListener('mouseenter', function() {
+                log('mouseOutput', '→ mouseenter event');
+            });
+
+            demo.addEventListener('mouseleave', function() {
+                log('mouseOutput', '← mouseleave event');
+            });
+
+            demo.addEventListener('mousemove', function(e) {
+                if (eventLogs['mouseOutput'] && eventLogs['mouseOutput'].length > 5) {
+                    eventLogs['mouseOutput'] = eventLogs['mouseOutput'].slice(-5);
+                }
+                log('mouseOutput', '↕ mousemove at X:' + e.clientX + ' Y:' + e.clientY);
+                clearOldest('mouseOutput', 5);
+            });
+
+            log('mouseOutput', 'Hover over the box to see mouse events...');
+        }
+
+        // Keyboard Events
+        function keyboardExample() {
+            clear('keyboardOutput');
+            let input = document.getElementById('keyInput');
+            
+            input.addEventListener('keydown', function(e) {
+                log('keyboardOutput', '↓ keydown: ' + e.key + ' (code: ' + e.code + ')');
+                clearOldest('keyboardOutput', 8);
+            });
+
+            input.addEventListener('keyup', function(e) {
+                log('keyboardOutput', '↑ keyup: ' + e.key);
+                clearOldest('keyboardOutput', 8);
+            });
+
+            log('keyboardOutput', 'Type in the input to see keyboard events...');
+            input.focus();
+        }
+
+        // Form Events
+        function formExample() {
+            clear('formOutput');
+            let input = document.getElementById('formInput');
+            
+            input.addEventListener('focus', function() {
+                log('formOutput', '→ focus event - input focused');
+            });
+
+            input.addEventListener('blur', function() {
+                log('formOutput', '← blur event - input lost focus');
+            });
+
+            input.addEventListener('change', function() {
+                log('formOutput', '✓ change event - value changed to: ' + this.value);
+            });
+
+            input.addEventListener('input', function() {
+                if (eventLogs['formOutput'] && eventLogs['formOutput'].length > 5) {
+                    eventLogs['formOutput'] = eventLogs['formOutput'].slice(-5);
+                }
+                log('formOutput', '⌨ input: ' + this.value);
+                clearOldest('formOutput', 5);
+            });
+
+            log('formOutput', 'Focus, type, and blur the input to see events...');
+        }
+
+        function testForm() {
+            document.getElementById('formInput').focus();
+        }
+
+        // Event Object
+        function eventObjectExample() {
+            clear('eventOutput');
+        }
+
+        function captureEventObject(event) {
+            clear('eventOutput');
+            log('eventOutput', '=== Event Object Properties ===\n');
+            log('eventOutput', 'event.type: ' + event.type);
+            log('eventOutput', 'event.target.tagName: ' + event.target.tagName);
+            log('eventOutput', 'event.currentTarget.tagName: ' + event.currentTarget.tagName);
+            log('eventOutput', 'event.bubbles: ' + event.bubbles);
+            log('eventOutput', 'event.cancelable: ' + event.cancelable);
+            log('eventOutput', 'event.timeStamp: ' + event.timeStamp);
+            if (event.clientX !== undefined) {
+                log('eventOutput', 'event.clientX: ' + event.clientX);
+                log('eventOutput', 'event.clientY: ' + event.clientY);
+            }
+        }
+
+        // preventDefault
+        function preventExample() {
+            clear('preventOutput');
+        }
+
+        function handleLink(event) {
+            event.preventDefault();
+            log('preventOutput', '✓ preventDefault() blocked link navigation');
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            log('preventOutput', '✓ preventDefault() blocked form submission');
+        }
+
+        // Bubbling
+        function bubblingExample() {
+            clear('bubbleOutput');
+            let parent = document.getElementById('parent');
+            let child = document.getElementById('child');
+            
+            parent.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'BUTTON') {
+                    log('bubbleOutput', '3. Parent click handler (bubbled from child)');
+                }
+            });
+
+            child.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'BUTTON') {
+                    log('bubbleOutput', '2. Child click handler');
+                }
+            });
+
+            log('bubbleOutput', 'Click the button to see event bubbling...');
+        }
+
+        function handleBubbleClick(event) {
+            clear('bubbleOutput');
+            log('bubbleOutput', '1. Button click handler');
+            setTimeout(() => {
+                log('bubbleOutput', '2. Child click handler (bubbled)');
+                setTimeout(() => {
+                    log('bubbleOutput', '3. Parent click handler (bubbled)');
+                }, 100);
+            }, 100);
+        }
+
+        // Event Delegation
+        function delegationExample() {
+            clear('delegationOutput');
+            let container = document.getElementById('delegationContainer');
+            
+            container.addEventListener('click', function(event) {
+                if (event.target.classList.contains('item')) {
+                    log('delegationOutput', '✓ Clicked: ' + event.target.textContent);
+                    event.target.style.background = '#f5576c';
+                    event.target.style.color = 'white';
+                    clearOldest('delegationOutput', 8);
+                }
+            });
+
+            log('delegationOutput', 'Click on any item to see event delegation...');
+        }
+
+        function resetDelegation() {
+            let items = document.querySelectorAll('#delegationContainer .item');
+            items.forEach(item => {
+                item.style.background = 'white';
+                item.style.color = 'black';
+            });
+            clear('delegationOutput');
+            log('delegationOutput', 'Items reset. Click to test delegation...');
+        }
+
+        // Add/Remove Listeners
+        function addRemoveExample() {
+            clear('addRemoveOutput');
+            let toggleBtn = document.getElementById('toggleBtn');
+            let testBtn = document.getElementById('testBtn');
+            let isListenerAdded = false;
+
+            function myHandler() {
+                log('addRemoveOutput', '✓ Button clicked! Listener is active');
+            }
+
+            toggleBtn.onclick = function() {
+                if (!isListenerAdded) {
+                    testBtn.addEventListener('click', myHandler);
+                    testBtn.style.display = 'inline-block';
+                    toggleBtn.textContent = 'Remove Listener';
+                    log('addRemoveOutput', '✓ Listener added. Click "Test Button"');
+                    isListenerAdded = true;
+                } else {
+                    testBtn.removeEventListener('click', myHandler);
+                    testBtn.style.display = 'none';
+                    toggleBtn.textContent = 'Add Listener';
+                    log('addRemoveOutput', '✓ Listener removed');
+                    isListenerAdded = false;
+                }
+            };
+        }
+
+        // Custom Events
+        function customEventExample() {
+            clear('customOutput');
+        }
+
+        function triggerCustom() {
+            let container = document.querySelector('.demo-box');
+            let customEvent = new CustomEvent('greet', {
+                detail: { message: 'Hello from custom event!', timestamp: new Date().toLocaleTimeString() }
+            });
+
+            container.addEventListener('greet', function(e) {
+                log('customOutput', '✓ Custom "greet" event fired!');
+                log('customOutput', 'Message: ' + e.detail.message);
+                log('customOutput', 'Time: ' + e.detail.timestamp);
+            });
+
+            container.dispatchEvent(customEvent);
+        }
+
+        // Window Events
+        function windowEventExample() {
+            clear('windowOutput');
+            log('windowOutput', '=== Window Events ===\n');
+            log('windowOutput', '✓ Page loaded (current state)');
+            log('windowOutput', '✓ Window size: ' + window.innerWidth + 'x' + window.innerHeight);
+            
+            window.addEventListener('resize', function() {
+                log('windowOutput', '✓ resize event: ' + window.innerWidth + 'x' + window.innerHeight);
+                clearOldest('windowOutput', 5);
+            });
+
+            log('windowOutput', '\nTry resizing the window to see resize events');
+        }
+
+        // Timer Events
+        function timerExample() {
+            clear('timerOutput');
+            let timerBtn = document.getElementById('timerBtn');
+            let cancelBtn = document.getElementById('cancelBtn');
+            let count = 0;
+            let intervalId = null;
+
+            timerBtn.onclick = function() {
+                timerBtn.style.display = 'none';
+                cancelBtn.style.display = 'inline-block';
+                log('timerOutput', '▶ Timer started - executing every 1 second\n');
+
+                intervalId = setInterval(function() {
+                    count++;
+                    log('timerOutput', count + '. Timer tick at ' + new Date().toLocaleTimeString());
+                    clearOldest('timerOutput', 6);
+                }, 1000);
+            };
+
+            cancelBtn.onclick = function() {
+                clearInterval(intervalId);
+                timerBtn.style.display = 'inline-block';
+                cancelBtn.style.display = 'none';
+                log('timerOutput', '⏹ Timer stopped');
+                count = 0;
+            };
+        }
+
+        // Debouncing
+        function debounceExample() {
+            clear('debounceOutput');
+            let input = document.getElementById('debounceInput');
+            let searchCount = 0;
+
+            function debounce(func, delay) {
+                let timeoutId;
+                return function() {
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(func, delay);
+                };
+            }
+
+            const debouncedSearch = debounce(function() {
+                searchCount++;
+                log('debounceOutput', '🔍 Search #' + searchCount + ': "' + input.value + '" - Debounced after 500ms');
+                clearOldest('debounceOutput', 5);
+            }, 500);
+
+            input.addEventListener('input', function() {
+                log('debounceOutput', '⌨ Typing: ' + input.value + ' (waiting for pause...)');
+                clearOldest('debounceOutput', 5);
+                debouncedSearch();
+            });
+
+            log('debounceOutput', 'Type in the input - search executes only after you stop typing');
+        }
+
+        // Todo List
+        function addTodo() {
+            let input = document.getElementById('todoInput');
+            let list = document.getElementById('todoList');
+            
+            if (input.value.trim() === '') {
+                log('todoOutput', '⚠ Please enter a todo');
+                return;
+            }
+
+            let li = document.createElement('li');
+            li.innerHTML = input.value + ' <button class="event-btn" style="font-size: 11px; padding: 3px 8px;">Delete</button>';
+            
+            li.querySelector('button').addEventListener('click', function(e) {
+                e.stopPropagation();
+                li.remove();
+                log('todoOutput', '🗑 Deleted: ' + input.value);
+            });
+
+            list.appendChild(li);
+            log('todoOutput', '✓ Added: ' + input.value);
+            input.value = '';
+            input.focus();
+        }
+
+        document.getElementById('todoInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        window.addEventListener('load', function() {
+            clear('keyboardOutput');
+        });
+    </script>
+</body>
+</html>
