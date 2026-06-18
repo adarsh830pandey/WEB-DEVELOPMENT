@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced React Components & State Management</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #f5576c;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #f5576c;
+            border-radius: 4px;
+        }
+        .section h2 {
+            color: #f5576c;
+            margin-bottom: 15px;
+        }
+        button {
+            background: #f5576c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #f093fb;
+            transform: translateY(-2px);
+        }
+        .code-box {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .demo-area {
+            background: #ffe8ec;
+            border: 2px solid #f5576c;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+            min-height: 100px;
+        }
+        .component-box {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        input, textarea, select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+        }
+        textarea {
+            width: 100%;
+            min-height: 80px;
+            font-family: 'Courier New', monospace;
+        }
+        .state-display {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .todo-item {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .todo-item.completed {
+            opacity: 0.6;
+        }
+        .todo-item.completed p {
+            text-decoration: line-through;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚛️ Advanced React: State & Hooks</h1>
+
+        <!-- Section 1: useState Hook -->
+        <div class="section">
+            <h2>1. useState Hook - Managing State</h2>
+            <div class="code-box"><code>
+import { useState } from 'react'
+
+function Counter() {
+    const [count, setCount] = useState(0)
+    
+    return (
+        &lt;div&gt;
+            &lt;p&gt;Count: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(count + 1)}&gt;+&lt;/button&gt;
+            &lt;button onClick={() =&gt; setCount(count - 1)}&gt;-&lt;/button&gt;
+        &lt;/div&gt;
+    )
+}
+            </code></div>
+            <div id="component1"></div>
+        </div>
+
+        <!-- Section 2: Multiple State Variables -->
+        <div class="section">
+            <h2>2. Multiple State Variables</h2>
+            <div class="code-box"><code>
+function Form() {
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [age, setAge] = useState('')
+    
+    return (
+        &lt;form&gt;
+            &lt;input 
+                value={name}
+                onChange={(e) =&gt; setName(e.target.value)}
+                placeholder="Name"
+            /&gt;
+            {/* More inputs... */}
+        &lt;/form&gt;
+    )
+}
+            </code></div>
+            <div id="component2"></div>
+        </div>
+
+        <!-- Section 3: useEffect Hook -->
+        <div class="section">
+            <h2>3. useEffect Hook - Side Effects</h2>
+            <div class="code-box"><code>
+import { useState, useEffect } from 'react'
+
+function DataFetcher() {
+    const [data, setData] = useState(null)
+    
+    useEffect(() =&gt; {
+        // Run after render
+        console.log('Component rendered')
+        
+        return () =&gt; {
+            // Cleanup function
+            console.log('Cleanup')
+        }
+    }, []) // dependency array
+    
+    return &lt;div&gt;{data}&lt;/div&gt;
+}
+            </code></div>
+            <div id="component3"></div>
+        </div>
+
+        <!-- Section 4: useContext Hook -->
+        <div class="section">
+            <h2>4. useContext - Share State Across Components</h2>
+            <div class="code-box"><code>
+import { createContext, useContext } from 'react'
+
+// Create context
+const ThemeContext = createContext()
+
+// Provider component
+function ThemeProvider({ children }) {
+    const [theme, setTheme] = useState('light')
+    return (
+        &lt;ThemeContext.Provider value={{ theme, setTheme }}&gt;
+            {children}
+        &lt;/ThemeContext.Provider&gt;
+    )
+}
+
+// Use context in component
+function ThemedComponent() {
+    const { theme } = useContext(ThemeContext)
+    return &lt;div&gt;Theme: {theme}&lt;/div&gt;
+}
+            </code></div>
+            <div id="component4"></div>
+        </div>
+
+        <!-- Section 5: useReducer Hook -->
+        <div class="section">
+            <h2>5. useReducer - Complex State Logic</h2>
+            <div class="code-box"><code>
+import { useReducer } from 'react'
+
+function reducer(state, action) {
+    switch(action.type) {
+        case 'INCREMENT':
+            return { count: state.count + 1 }
+        case 'DECREMENT':
+            return { count: state.count - 1 }
+        default:
+            return state
+    }
+}
+
+function Counter() {
+    const [state, dispatch] = useReducer(reducer, { count: 0 })
+    
+    return (
+        &lt;button onClick={() =&gt; dispatch({ type: 'INCREMENT' })}&gt;
+            Count: {state.count}
+        &lt;/button&gt;
+    )
+}
+            </code></div>
+            <div id="component5"></div>
+        </div>
+
+        <!-- Section 6: useRef Hook -->
+        <div class="section">
+            <h2>6. useRef - Access DOM Elements Directly</h2>
+            <div class="code-box"><code>
+import { useRef } from 'react'
+
+function FocusInput() {
+    const inputRef = useRef(null)
+    
+    const handleFocus = () =&gt; {
+        inputRef.current.focus()
+    }
+    
+    return (
+        &lt;div&gt;
+            &lt;input ref={inputRef} placeholder="Click button to focus" /&gt;
+            &lt;button onClick={handleFocus}&gt;Focus Input&lt;/button&gt;
+        &lt;/div&gt;
+    )
+}
+            </code></div>
+            <div id="component6"></div>
+        </div>
+
+        <!-- Section 7: useMemo & useCallback -->
+        <div class="section">
+            <h2>7. useMemo & useCallback - Performance Optimization</h2>
+            <div class="code-box"><code>
+import { useMemo, useCallback } from 'react'
+
+function MemoExample({ items }) {
+    // Memoize expensive calculation
+    const total = useMemo(() =&gt; {
+        return items.reduce((sum, item) =&gt; sum + item.price, 0)
+    }, [items])
+    
+    // Memoize callback function
+    const handleClick = useCallback(() =&gt; {
+        console.log('Button clicked')
+    }, [])
+    
+    return (
+        &lt;div&gt;
+            &lt;p&gt;Total: {total}&lt;/p&gt;
+            &lt;button onClick={handleClick}&gt;Click&lt;/button&gt;
+        &lt;/div&gt;
+    )
+}
+            </code></div>
+            <div id="component7"></div>
+        </div>
+
+        <!-- Section 8: Controlled Components -->
+        <div class="section">
+            <h2>8. Controlled Components - Form Input Control</h2>
+            <div class="code-box"><code>
+function ControlledForm() {
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        message: ''
+    })
+    
+    const handleChange = (e) =&gt; {
+        const { name, value } = e.target
+        setFormData(prev =&gt; ({
+            ...prev,
+            [name]: value
+        }))
+    }
+    
+    return (
+        &lt;form&gt;
+            &lt;input name="username" value={formData.username} onChange={handleChange} /&gt;
+            {/* More inputs... */}
+        &lt;/form&gt;
+    )
+}
+            </code></div>
+            <div id="component8"></div>
+        </div>
+
+        <!-- Section 9: Lifting State Up -->
+        <div class="section">
+            <h2>9. Lifting State Up - Parent-Child Communication</h2>
+            <div class="code-box"><code>
+// Parent component
+function Parent() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    
+    return (
+        &lt;div&gt;
+            &lt;Header isLoggedIn={isLoggedIn} /&gt;
+            &lt;LoginForm onLogin={() =&gt; setIsLoggedIn(true)} /&gt;
+        &lt;/div&gt;
+    )
+}
+
+// Child components receive state and callbacks
+function LoginForm({ onLogin }) {
+    return &lt;button onClick={onLogin}&gt;Login&lt;/button&gt;
+}
+            </code></div>
+            <div id="component9"></div>
+        </div>
+
+        <!-- Section 10: Conditional Rendering with State -->
+        <div class="section">
+            <h2>10. Conditional Rendering with State</h2>
+            <div class="code-box"><code>
+function ToggleContent() {
+    const [showContent, setShowContent] = useState(false)
+    
+    return (
+        &lt;div&gt;
+            &lt;button onClick={() =&gt; setShowContent(!showContent)}&gt;
+                {showContent ? 'Hide' : 'Show'} Content
+            &lt;/button&gt;
+            
+            {showContent && (
+                &lt;div&gt;
+                    &lt;p&gt;This content is toggled&lt;/p&gt;
+                &lt;/div&gt;
+            )}
+        &lt;/div&gt;
+    )
+}
+            </code></div>
+            <div id="component10"></div>
+        </div>
+
+        <!-- Section 11: State with Objects and Arrays -->
+        <div class="section">
+            <h2>11. Updating State - Objects & Arrays</h2>
+            <div class="code-box"><code>
+// Update object state
+const [user, setUser] = useState({ name: 'John', age: 30 })
+setUser(prev =&gt; ({ ...prev, age: 31 }))
+
+// Update array state
+const [todos, setTodos] = useState(['Task 1'])
+setTodos(prev =&gt; [...prev, 'Task 2'])
+setTodos(prev =&gt; prev.filter((_, i) =&gt; i !== 0))
+
+// Immutability - always create new state
+const [items, setItems] = useState([{ id: 1, done: false }])
+setItems(prev =&gt; prev.map(item =&gt; 
+    item.id === 1 ? { ...item, done: true } : item
+))
+            </code></div>
+            <div id="component11"></div>
+        </div>
+
+        <!-- Section 12: Practical Todo App -->
+        <div class="section">
+            <h2>12. Practical Example: Todo Application</h2>
+            <div class="code-box"><code>
+function TodoApp() {
+    const [todos, setTodos] = useState([])
+    const [input, setInput] = useState('')
+    
+    const addTodo = () =&gt; {
+        if (input.trim()) {
+            setTodos([...todos, { 
+                id: Date.now(), 
+                text: input, 
+                done: false 
+            }])
+            setInput('')
+        }
+    }
+    
+    const toggleTodo = (id) =&gt; {
+        setTodos(todos.map(todo =&gt;
+            todo.id === id ? { ...todo, done: !todo.done } : todo
+        ))
+    }
+}
+            </code></div>
+            <div id="component12"></div>
+        </div>
+
+        <!-- Section 13: useLayoutEffect -->
+        <div class="section">
+            <h2>13. useLayoutEffect - Before Paint</h2>
+            <div class="code-box"><code>
+import { useLayoutEffect } from 'react'
+
+function LayoutEffectExample() {
+    const [size, setSize] = useState(0)
+    
+    useLayoutEffect(() =&gt; {
+        // Runs synchronously after DOM mutations
+        // Use for measuring DOM and updating state
+        function handleResize() {
+            setSize(window.innerWidth)
+        }
+        
+        window.addEventListener('resize', handleResize)
+        return () =&gt; window.removeEventListener('resize', handleResize)
+    }, [])
+    
+    return &lt;p&gt;Window width: {size}&lt;/p&gt;
+}
+            </code></div>
+            <div id="component13"></div>
+        </div>
+
+        <!-- Section 14: Error Boundary Concept -->
+        <div class="section">
+            <h2>14. Error Handling & Debugging</h2>
+            <div class="code-box"><code>
+// Check for errors in development
+function SafeComponent({ data }) {
+    if (!data) {
+        return &lt;p&gt;No data provided&lt;/p&gt;
+    }
+    
+    try {
+        return &lt;div&gt;{data.name}&lt;/div&gt;
+    } catch (error) {
+        return &lt;p&gt;Error: {error.message}&lt;/p&gt;
+    }
+}
+
+// Use React DevTools for debugging
+// React.strict mode highlights side effects
+            </code></div>
+            <div id="component14"></div>
+        </div>
+
+        <!-- Section 15: Performance Tips -->
+        <div class="section">
+            <h2>15. Performance Optimization Tips</h2>
+            <div class="code-box"><code>
+// 1. Use React.memo for pure components
+const MemoComponent = React.memo(function MyComponent(props) {
+    return &lt;div&gt;{props.value}&lt;/div&gt;
+})
+
+// 2. Use keys in lists
+&lt;ul&gt;
+    {items.map(item =&gt; &lt;li key={item.id}&gt;{item.name}&lt;/li&gt;)}
+&lt;/ul&gt;
+
+// 3. Split code with React.lazy
+const HeavyComponent = React.lazy(() =&gt; import('./Heavy'))
+
+// 4. Avoid inline object/function creation in render
+// Instead create outside component
+            </code></div>
+            <div id="component15"></div>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useReducer, useRef, useMemo, useCallback, useContext, createContext } = React
+
+        // 1. useState Hook
+        function Counter() {
+            const [count, setCount] = useState(0)
+
+            return (
+                <div className="component-box">
+                    <h4>Counter: {count}</h4>
+                    <button onClick={() => setCount(count + 1)}>Increment</button>
+                    <button onClick={() => setCount(count - 1)}>Decrement</button>
+                    <button onClick={() => setCount(0)}>Reset</button>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><Counter /></div>,
+            document.getElementById('component1')
+        )
+
+        // 2. Multiple State Variables
+        function Form() {
+            const [name, setName] = useState('')
+            const [email, setEmail] = useState('')
+            const [age, setAge] = useState('')
+
+            return (
+                <div className="component-box">
+                    <h4>Form with Multiple States</h4>
+                    <input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Name"
+                    />
+                    <input
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="Email"
+                        type="email"
+                    />
+                    <input
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        placeholder="Age"
+                        type="number"
+                    />
+                    <div className="state-display">
+                        <p><strong>Name:</strong> {name || '(empty)'}</p>
+                        <p><strong>Email:</strong> {email || '(empty)'}</p>
+                        <p><strong>Age:</strong> {age || '(empty)'}</p>
+                    </div>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><Form /></div>,
+            document.getElementById('component2')
+        )
+
+        // 3. useEffect Hook
+        function DataFetcher() {
+            const [count, setCount] = useState(0)
+            const [effect, setEffect] = useState('Waiting for effect...')
+
+            useEffect(() => {
+                setEffect(`Effect ran! Count is ${count}`)
+
+                return () => {
+                    setEffect(`Cleanup called for count ${count}`)
+                }
+            }, [count])
+
+            return (
+                <div className="component-box">
+                    <h4>useEffect Demo</h4>
+                    <p>Count: {count}</p>
+                    <button onClick={() => setCount(count + 1)}>Increment</button>
+                    <div className="state-display">
+                        {effect}
+                    </div>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><DataFetcher /></div>,
+            document.getElementById('component3')
+        )
+
+        // 4. useContext Demo
+        const DemoContext = createContext()
+
+        function ContextProvider({ children }) {
+            const [theme, setTheme] = useState('light')
+
+            return (
+                <DemoContext.Provider value={{ theme, setTheme }}>
+                    {children}
+                </DemoContext.Provider>
+            )
+        }
+
+        function ThemedComponent() {
+            const { theme, setTheme } = useContext(DemoContext)
+
+            return (
+                <div className="component-box" style={{ background: theme === 'light' ? '#f0f0f0' : '#333', color: theme === 'light' ? '#000' : '#fff' }}>
+                    <h4>Current Theme: {theme}</h4>
+                    <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+                        Toggle Theme
+                    </button>
+                </div>
+            )
+        }
+
+        function ContextDemo() {
+            return (
+                <div className="demo-area">
+                    <ContextProvider>
+                        <ThemedComponent />
+                    </ContextProvider>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<ContextDemo />, document.getElementById('component4'))
+
+        // 5. useReducer Hook
+        function reducer(state, action) {
+            switch (action.type) {
+                case 'INCREMENT':
+                    return { count: state.count + 1 }
+                case 'DECREMENT':
+                    return { count: state.count - 1 }
+                case 'RESET':
+                    return { count: 0 }
+                default:
+                    return state
+            }
+        }
+
+        function ReducerCounter() {
+            const [state, dispatch] = useReducer(reducer, { count: 0 })
+
+            return (
+                <div className="component-box">
+                    <h4>useReducer Counter: {state.count}</h4>
+                    <button onClick={() => dispatch({ type: 'INCREMENT' })}>+</button>
+                    <button onClick={() => dispatch({ type: 'DECREMENT' })}>-</button>
+                    <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><ReducerCounter /></div>,
+            document.getElementById('component5')
+        )
+
+        // 6. useRef Hook
+        function FocusInput() {
+            const inputRef = useRef(null)
+
+            const handleFocus = () => {
+                inputRef.current.focus()
+            }
+
+            return (
+                <div className="component-box">
+                    <h4>useRef Example</h4>
+                    <input ref={inputRef} placeholder="Click button to focus" />
+                    <button onClick={handleFocus}>Focus Input</button>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><FocusInput /></div>,
+            document.getElementById('component6')
+        )
+
+        // 7. useMemo & useCallback
+        function MemoExample() {
+            const [count, setCount] = useState(0)
+
+            const expensiveValue = useMemo(() => {
+                let sum = 0
+                for (let i = 0; i < 1000000; i++) {
+                    sum += i
+                }
+                return sum
+            }, [])
+
+            const handleClick = useCallback(() => {
+                console.log('Button clicked - memoized callback')
+            }, [])
+
+            return (
+                <div className="component-box">
+                    <h4>useMemo & useCallback</h4>
+                    <p>Count: {count}</p>
+                    <p>Expensive value: {expensiveValue}</p>
+                    <button onClick={() => setCount(count + 1)}>Increment</button>
+                    <button onClick={handleClick}>Memoized Callback</button>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><MemoExample /></div>,
+            document.getElementById('component7')
+        )
+
+        // 8. Controlled Components
+        function ControlledForm() {
+            const [formData, setFormData] = useState({
+                username: '',
+                email: '',
+                message: ''
+            })
+
+            const handleChange = (e) => {
+                const { name, value } = e.target
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: value
+                }))
+            }
+
+            return (
+                <div className="component-box">
+                    <h4>Controlled Form</h4>
+                    <input
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        placeholder="Username"
+                    />
+                    <input
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email"
+                        type="email"
+                    />
+                    <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Message"
+                    />
+                    <div className="state-display">
+                        <p><strong>Username:</strong> {formData.username}</p>
+                        <p><strong>Email:</strong> {formData.email}</p>
+                        <p><strong>Message:</strong> {formData.message}</p>
+                    </div>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><ControlledForm /></div>,
+            document.getElementById('component8')
+        )
+
+        // 9. Lifting State Up
+        function Parent() {
+            const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+            function Header() {
+                return (
+                    <div style={{ background: '#f0f0f0', padding: '10px', marginBottom: '10px' }}>
+                        <p>Status: {isLoggedIn ? '✓ Logged In' : '✗ Logged Out'}</p>
+                    </div>
+                )
+            }
+
+            function LoginForm() {
+                return (
+                    <button onClick={() => setIsLoggedIn(!isLoggedIn)}>
+                        {isLoggedIn ? 'Logout' : 'Login'}
+                    </button>
+                )
+            }
+
+            return (
+                <div className="component-box">
+                    <h4>Lifting State Up</h4>
+                    <Header />
+                    <LoginForm />
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><Parent /></div>,
+            document.getElementById('component9')
+        )
+
+        // 10. Conditional Rendering
+        function ToggleContent() {
+            const [showContent, setShowContent] = useState(false)
+
+            return (
+                <div className="component-box">
+                    <h4>Conditional Rendering</h4>
+                    <button onClick={() => setShowContent(!showContent)}>
+                        {showContent ? 'Hide' : 'Show'} Content
+                    </button>
+                    {showContent && (
+                        <div style={{ marginTop: '10px', padding: '10px', background: '#e8f4f8', borderRadius: '4px' }}>
+                            <p>✓ This content is conditionally rendered!</p>
+                        </div>
+                    )}
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><ToggleContent /></div>,
+            document.getElementById('component10')
+        )
+
+        // 11. Array/Object Updates
+        function StateUpdates() {
+            const [todos, setTodos] = useState(['Learn React', 'Build App'])
+
+            const addTodo = () => {
+                const newTodo = 'New Task ' + (todos.length + 1)
+                setTodos([...todos, newTodo])
+            }
+
+            const removeTodo = (index) => {
+                setTodos(todos.filter((_, i) => i !== index))
+            }
+
+            return (
+                <div className="component-box">
+                    <h4>Array State Updates</h4>
+                    <button onClick={addTodo}>Add Todo</button>
+                    <ul style={{ marginTop: '10px' }}>
+                        {todos.map((todo, index) => (
+                            <li key={index} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px', background: '#f0f0f0', margin: '5px 0', borderRadius: '4px' }}>
+                                <span>{todo}</span>
+                                <button onClick={() => removeTodo(index)} style={{ fontSize: '12px', padding: '3px 8px' }}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><StateUpdates /></div>,
+            document.getElementById('component11')
+        )
+
+        // 12. Todo App
+        function TodoApp() {
+            const [todos, setTodos] = useState([])
+            const [input, setInput] = useState('')
+
+            const addTodo = () => {
+                if (input.trim()) {
+                    setTodos([...todos, { id: Date.now(), text: input, done: false }])
+                    setInput('')
+                }
+            }
+
+            const toggleTodo = (id) => {
+                setTodos(todos.map(todo =>
+                    todo.id === id ? { ...todo, done: !todo.done } : todo
+                ))
+            }
+
+            const deleteTodo = (id) => {
+                setTodos(todos.filter(todo => todo.id !== id))
+            }
+
+            return (
+                <div className="component-box">
+                    <h4>Todo Application</h4>
+                    <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                        <input
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+                            placeholder="Add a new todo"
+                        />
+                        <button onClick={addTodo}>Add</button>
+                    </div>
+                    <div>
+                        {todos.length === 0 ? (
+                            <p style={{ color: '#999' }}>No todos yet. Add one!</p>
+                        ) : (
+                            todos.map(todo => (
+                                <div key={todo.id} className="todo-item" style={{ opacity: todo.done ? 0.6 : 1 }}>
+                                    <span style={{ textDecoration: todo.done ? 'line-through' : 'none' }}>{todo.text}</span>
+                                    <div>
+                                        <button onClick={() => toggleTodo(todo.id)} style={{ fontSize: '12px', padding: '3px 8px', marginRight: '5px' }}>
+                                            {todo.done ? 'Undo' : 'Done'}
+                                        </button>
+                                        <button onClick={() => deleteTodo(todo.id)} style={{ fontSize: '12px', padding: '3px 8px' }}>Delete</button>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><TodoApp /></div>,
+            document.getElementById('component12')
+        )
+
+        // 13. useLayoutEffect demo
+        function LayoutEffectDemo() {
+            const [windowSize, setWindowSize] = useState(window.innerWidth)
+
+            useEffect(() => {
+                const handleResize = () => setWindowSize(window.innerWidth)
+                window.addEventListener('resize', handleResize)
+                return () => window.removeEventListener('resize', handleResize)
+            }, [])
+
+            return (
+                <div className="component-box">
+                    <h4>Window Tracking</h4>
+                    <p>Window width: {windowSize}px</p>
+                    <p style={{ fontSize: '12px', color: '#666' }}>Resize your window to see it update</p>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><LayoutEffectDemo /></div>,
+            document.getElementById('component13')
+        )
+
+        // 14. Error Handling
+        function SafeComponent({ shouldError }) {
+            if (shouldError) {
+                return <p style={{ color: 'red' }}>⚠️ Error: Invalid data provided</p>
+            }
+
+            return (
+                <div className="component-box">
+                    <h4>✓ Data loaded successfully</h4>
+                    <p>Component is rendering without errors</p>
+                </div>
+            )
+        }
+
+        function ErrorDemo() {
+            const [error, setError] = useState(false)
+
+            return (
+                <div className="demo-area">
+                    <button onClick={() => setError(!error)}>
+                        {error ? 'Fix Error' : 'Trigger Error'}
+                    </button>
+                    <br /><br />
+                    <SafeComponent shouldError={error} />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<ErrorDemo />, document.getElementById('component14'))
+
+        // 15. Performance Tips
+        function PerformanceTips() {
+            return (
+                <div className="component-box">
+                    <h4>Performance Optimization Tips</h4>
+                    <ul style={{ fontSize: '13px' }}>
+                        <li>✓ Use React.memo for pure components</li>
+                        <li>✓ Add keys to list items</li>
+                        <li>✓ Use useMemo for expensive calculations</li>
+                        <li>✓ Use useCallback for stable functions</li>
+                        <li>✓ Avoid inline object/function creation</li>
+                        <li>✓ Use React.lazy for code splitting</li>
+                        <li>✓ Profile with React DevTools</li>
+                    </ul>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><PerformanceTips /></div>,
+            document.getElementById('component15')
+        )
+    </script>
+</body>
+</html>

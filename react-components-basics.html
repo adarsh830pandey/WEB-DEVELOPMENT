@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Components & JSX Basics</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        .code-box {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .demo-area {
+            background: #e8f4f8;
+            border: 2px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+            min-height: 80px;
+        }
+        .component-box {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .input-field {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 5px 5px 5px 0;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚛️ React Components & JSX Basics</h1>
+
+        <!-- Section 1: Functional Components -->
+        <div class="section">
+            <h2>1. Functional Components</h2>
+            <div class="code-box"><code>
+// Simple functional component
+function Welcome() {
+    return &lt;h2&gt;Hello, React!&lt;/h2&gt;
+}
+
+// Export component
+export default Welcome
+            </code></div>
+            <div id="component1"></div>
+        </div>
+
+        <!-- Section 2: JSX Basics -->
+        <div class="section">
+            <h2>2. JSX Syntax Basics</h2>
+            <div class="code-box"><code>
+// JSX looks like HTML but it's JavaScript
+function App() {
+    return (
+        &lt;div&gt;
+            &lt;h1&gt;Welcome to React&lt;/h1&gt;
+            &lt;p&gt;JSX is HTML-like syntax in JavaScript&lt;/p&gt;
+        &lt;/div&gt;
+    )
+}
+
+// JSX must return single root element
+            </code></div>
+            <div id="component2"></div>
+        </div>
+
+        <!-- Section 3: Components with Props -->
+        <div class="section">
+            <h2>3. Components with Props</h2>
+            <div class="code-box"><code>
+// Component receives props
+function Greeting(props) {
+    return &lt;h2&gt;Hello, {props.name}!&lt;/h2&gt;
+}
+
+// Using component
+&lt;Greeting name="John" /&gt;
+&lt;Greeting name="Jane" /&gt;
+            </code></div>
+            <div id="component3"></div>
+        </div>
+
+        <!-- Section 4: Props Destructuring -->
+        <div class="section">
+            <h2>4. Props Destructuring</h2>
+            <div class="code-box"><code>
+// Destructure props in function parameters
+function Card({ title, description, color }) {
+    return (
+        &lt;div style={{ background: color }}&gt;
+            &lt;h3&gt;{title}&lt;/h3&gt;
+            &lt;p&gt;{description}&lt;/p&gt;
+        &lt;/div&gt;
+    )
+}
+            </code></div>
+            <div id="component4"></div>
+        </div>
+
+        <!-- Section 5: Default Props -->
+        <div class="section">
+            <h2>5. Default Props</h2>
+            <div class="code-box"><code>
+// Set default values for props
+function Button({ label = "Click Me", color = "blue" }) {
+    return (
+        &lt;button style={{ background: color }}&gt;
+            {label}
+        &lt;/button&gt;
+    )
+}
+
+// With defaults
+&lt;Button /&gt;
+&lt;Button label="Submit" color="green" /&gt;
+            </code></div>
+            <div id="component5"></div>
+        </div>
+
+        <!-- Section 6: Props Validation -->
+        <div class="section">
+            <h2>6. Props Validation (PropTypes)</h2>
+            <div class="code-box"><code>
+import PropTypes from 'prop-types'
+
+function User({ name, age, email }) {
+    return (
+        &lt;div&gt;
+            &lt;p&gt;Name: {name}&lt;/p&gt;
+            &lt;p&gt;Age: {age}&lt;/p&gt;
+            &lt;p&gt;Email: {email}&lt;/p&gt;
+        &lt;/div&gt;
+    )
+}
+
+User.propTypes = {
+    name: PropTypes.string.isRequired,
+    age: PropTypes.number,
+    email: PropTypes.string
+}
+            </code></div>
+            <div id="component6"></div>
+        </div>
+
+        <!-- Section 7: Children Props -->
+        <div class="section">
+            <h2>7. Children Props</h2>
+            <div class="code-box"><code>
+// Access content between component tags
+function Container({ children, title }) {
+    return (
+        &lt;div style={{ border: '1px solid #ccc' }}&gt;
+            &lt;h3&gt;{title}&lt;/h3&gt;
+            {children}
+        &lt;/div&gt;
+    )
+}
+
+// Usage
+&lt;Container title="Box"&gt;
+    &lt;p&gt;Content inside&lt;/p&gt;
+&lt;/Container&gt;
+            </code></div>
+            <div id="component7"></div>
+        </div>
+
+        <!-- Section 8: Conditional Rendering -->
+        <div class="section">
+            <h2>8. Conditional Rendering</h2>
+            <div class="code-box"><code>
+// Show/hide based on condition
+function StatusMessage({ isOnline }) {
+    return (
+        &lt;div&gt;
+            {isOnline ? (
+                &lt;p&gt;✓ User is online&lt;/p&gt;
+            ) : (
+                &lt;p&gt;✗ User is offline&lt;/p&gt;
+            )}
+        &lt;/div&gt;
+    )
+}
+
+// Or using && operator
+{isOnline && &lt;p&gt;Welcome back!&lt;/p&gt;}
+            </code></div>
+            <div id="component8"></div>
+        </div>
+
+        <!-- Section 9: Rendering Lists -->
+        <div class="section">
+            <h2>9. Rendering Lists</h2>
+            <div class="code-box"><code>
+// Render list of items
+function UserList({ users }) {
+    return (
+        &lt;ul&gt;
+            {users.map(user =&gt; (
+                &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;
+            ))}
+        &lt;/ul&gt;
+    )
+}
+
+// Usage
+const users = [
+    { id: 1, name: 'John' },
+    { id: 2, name: 'Jane' }
+]
+&lt;UserList users={users} /&gt;
+            </code></div>
+            <div id="component9"></div>
+        </div>
+
+        <!-- Section 10: Styling Components -->
+        <div class="section">
+            <h2>10. Styling Components</h2>
+            <div class="code-box"><code>
+// Inline styles (object)
+function StyledBox() {
+    const styles = {
+        container: {
+            background: '#667eea',
+            padding: '20px',
+            color: 'white',
+            borderRadius: '8px'
+        }
+    }
+    return &lt;div style={styles.container}&gt;Styled Box&lt;/div&gt;
+}
+
+// CSS classes
+&lt;div className="my-class"&gt;Content&lt;/div&gt;
+            </code></div>
+            <div id="component10"></div>
+        </div>
+
+        <!-- Section 11: Event Handling -->
+        <div class="section">
+            <h2>11. Event Handling in Components</h2>
+            <div class="code-box"><code>
+// Handle click events
+function Counter() {
+    const [count, setCount] = React.useState(0)
+    
+    return (
+        &lt;div&gt;
+            &lt;p&gt;Count: {count}&lt;/p&gt;
+            &lt;button onClick={() =&gt; setCount(count + 1)}&gt;
+                Increment
+            &lt;/button&gt;
+        &lt;/div&gt;
+    )
+}
+            </code></div>
+            <div id="component11"></div>
+        </div>
+
+        <!-- Section 12: Component Composition -->
+        <div class="section">
+            <h2>12. Component Composition</h2>
+            <div class="code-box"><code>
+// Combine components
+function Profile({ user }) {
+    return (
+        &lt;div&gt;
+            &lt;Header name={user.name} /&gt;
+            &lt;Bio description={user.bio} /&gt;
+            &lt;Footer email={user.email} /&gt;
+        &lt;/div&gt;
+    )
+}
+
+// Reusable parts
+function Header({ name }) {
+    return &lt;h1&gt;{name}&lt;/h1&gt;
+}
+            </code></div>
+            <div id="component12"></div>
+        </div>
+
+        <!-- Section 13: Higher Order Components Pattern -->
+        <div class="section">
+            <h2>13. Higher Order Components (HOC) Pattern</h2>
+            <div class="code-box"><code>
+// HOC adds functionality to component
+function withLogger(Component) {
+    return (props) =&gt; {
+        React.useEffect(() =&gt; {
+            console.log('Component mounted')
+            return () =&gt; console.log('Component unmounted')
+        }, [])
+        
+        return &lt;Component {...props} /&gt;
+    }
+}
+
+// Usage
+const EnhancedComponent = withLogger(MyComponent)
+            </code></div>
+            <div id="component13"></div>
+        </div>
+
+        <!-- Section 14: Custom Hooks -->
+        <div class="section">
+            <h2>14. Custom Hooks for Reusable Logic</h2>
+            <div class="code-box"><code>
+// Create custom hook for form
+function useFormInput(initialValue) {
+    const [value, setValue] = React.useState(initialValue)
+    
+    return {
+        value,
+        bind: {
+            value,
+            onChange: e =&gt; setValue(e.target.value)
+        }
+    }
+}
+
+// Use hook
+function Form() {
+    const name = useFormInput('')
+    return &lt;input {...name.bind} /&gt;
+}
+            </code></div>
+            <div id="component14"></div>
+        </div>
+
+        <!-- Section 15: Fragment Component -->
+        <div class="section">
+            <h2>15. React Fragment (& shorthand)</h2>
+            <div class="code-box"><code>
+// Return multiple elements without wrapper
+function List() {
+    return (
+        &lt;&gt;
+            &lt;h2&gt;List&lt;/h2&gt;
+            &lt;ul&gt;...&lt;/ul&gt;
+        &lt;/&gt;
+    )
+}
+
+// Or explicit Fragment
+&lt;React.Fragment&gt;
+    &lt;h2&gt;Title&lt;/h2&gt;
+    &lt;p&gt;Content&lt;/p&gt;
+&lt;/React.Fragment&gt;
+            </code></div>
+            <div id="component15"></div>
+        </div>
+    </div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React
+
+        // 1. Simple Functional Component
+        function WelcomeComponent() {
+            return <h2>✓ Hello from React Component!</h2>
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><WelcomeComponent /></div>,
+            document.getElementById('component1')
+        )
+
+        // 2. JSX Basics
+        function JSXDemo() {
+            return (
+                <div className="component-box">
+                    <h3>JSX Example</h3>
+                    <p>This is rendered with JSX syntax</p>
+                    <p>Notice how it looks like HTML but works in JavaScript</p>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <div className="demo-area"><JSXDemo /></div>,
+            document.getElementById('component2')
+        )
+
+        // 3. Props Example
+        function Greeting({ name }) {
+            return <h3>👋 Hello, {name}!</h3>
+        }
+
+        function PropsDemo() {
+            return (
+                <div className="demo-area">
+                    <Greeting name="John" />
+                    <Greeting name="Jane" />
+                    <Greeting name="React Developer" />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<PropsDemo />, document.getElementById('component3'))
+
+        // 4. Props Destructuring
+        function Card({ title, description, color }) {
+            return (
+                <div className="component-box" style={{ borderLeft: `5px solid ${color}` }}>
+                    <h4>{title}</h4>
+                    <p>{description}</p>
+                </div>
+            )
+        }
+
+        function DestructuringDemo() {
+            return (
+                <div className="demo-area">
+                    <Card title="React" description="A JavaScript library" color="#667eea" />
+                    <Card title="JavaScript" description="Programming language" color="#f5576c" />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<DestructuringDemo />, document.getElementById('component4'))
+
+        // 5. Default Props
+        function DefaultButton({ label = "Click Me", color = "#667eea" }) {
+            return (
+                <button style={{ background: color }}>
+                    {label}
+                </button>
+            )
+        }
+
+        function DefaultPropsDemo() {
+            return (
+                <div className="demo-area">
+                    <DefaultButton />
+                    <DefaultButton label="Submit" color="#28a745" />
+                    <DefaultButton label="Cancel" color="#dc3545" />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<DefaultPropsDemo />, document.getElementById('component5'))
+
+        // 6. Props Validation Demo
+        function User({ name, age, email }) {
+            return (
+                <div className="component-box">
+                    <p><strong>Name:</strong> {name}</p>
+                    <p><strong>Age:</strong> {age}</p>
+                    <p><strong>Email:</strong> {email}</p>
+                </div>
+            )
+        }
+
+        function ValidationDemo() {
+            return (
+                <div className="demo-area">
+                    <User name="John Doe" age={30} email="john@example.com" />
+                    <User name="Jane Smith" age={28} email="jane@example.com" />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<ValidationDemo />, document.getElementById('component6'))
+
+        // 7. Children Props
+        function Container({ children, title }) {
+            return (
+                <div className="component-box" style={{ border: '2px solid #667eea' }}>
+                    <h4>{title}</h4>
+                    {children}
+                </div>
+            )
+        }
+
+        function ChildrenDemo() {
+            return (
+                <div className="demo-area">
+                    <Container title="Welcome Box">
+                        <p>This is content passed as children</p>
+                        <p>It can be any JSX</p>
+                    </Container>
+                </div>
+            )
+        }
+
+        ReactDOM.render(<ChildrenDemo />, document.getElementById('component7'))
+
+        // 8. Conditional Rendering
+        function StatusMessage({ isOnline }) {
+            return (
+                <div className="component-box">
+                    {isOnline ? (
+                        <p style={{ color: 'green' }}>✓ User is online</p>
+                    ) : (
+                        <p style={{ color: 'red' }}>✗ User is offline</p>
+                    )}
+                </div>
+            )
+        }
+
+        function ConditionalDemo() {
+            return (
+                <div className="demo-area">
+                    <StatusMessage isOnline={true} />
+                    <StatusMessage isOnline={false} />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<ConditionalDemo />, document.getElementById('component8'))
+
+        // 9. Rendering Lists
+        function UserList({ users }) {
+            return (
+                <div className="component-box">
+                    <h4>Users ({users.length})</h4>
+                    <ul>
+                        {users.map(user => (
+                            <li key={user.id}>{user.name} - {user.email}</li>
+                        ))}
+                    </ul>
+                </div>
+            )
+        }
+
+        function ListDemo() {
+            const users = [
+                { id: 1, name: 'John Doe', email: 'john@example.com' },
+                { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
+                { id: 3, name: 'Bob Wilson', email: 'bob@example.com' }
+            ]
+
+            return (
+                <div className="demo-area">
+                    <UserList users={users} />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<ListDemo />, document.getElementById('component9'))
+
+        // 10. Styling Components
+        function StyledBox() {
+            const styles = {
+                container: {
+                    background: '#667eea',
+                    padding: '20px',
+                    color: 'white',
+                    borderRadius: '8px',
+                    textAlign: 'center'
+                }
+            }
+
+            return <div style={styles.container}>✨ Styled Component Box</div>
+        }
+
+        function StylingDemo() {
+            return (
+                <div className="demo-area">
+                    <StyledBox />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<StylingDemo />, document.getElementById('component10'))
+
+        // 11. Event Handling
+        function Counter() {
+            const [count, setCount] = useState(0)
+
+            return (
+                <div className="component-box">
+                    <p>Count: <strong>{count}</strong></p>
+                    <button onClick={() => setCount(count + 1)}>+</button>
+                    <button onClick={() => setCount(count - 1)}>-</button>
+                    <button onClick={() => setCount(0)}>Reset</button>
+                </div>
+            )
+        }
+
+        function EventDemo() {
+            return (
+                <div className="demo-area">
+                    <Counter />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<EventDemo />, document.getElementById('component11'))
+
+        // 12. Component Composition
+        function Header({ name }) {
+            return <h3>👤 {name}</h3>
+        }
+
+        function Bio({ description }) {
+            return <p>{description}</p>
+        }
+
+        function Profile({ user }) {
+            return (
+                <div className="component-box">
+                    <Header name={user.name} />
+                    <Bio description={user.bio} />
+                    <p><small>📧 {user.email}</small></p>
+                </div>
+            )
+        }
+
+        function CompositionDemo() {
+            const user = {
+                name: 'John Developer',
+                bio: 'React developer and JavaScript enthusiast',
+                email: 'john@example.com'
+            }
+
+            return (
+                <div className="demo-area">
+                    <Profile user={user} />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<CompositionDemo />, document.getElementById('component12'))
+
+        // 13. HOC Pattern
+        function withLogger(Component) {
+            return (props) => {
+                useEffect(() => {
+                    console.log('Component with Logger mounted')
+                    return () => console.log('Component with Logger unmounted')
+                }, [])
+
+                return <Component {...props} />
+            }
+        }
+
+        function SimpleComponent() {
+            return (
+                <div className="component-box">
+                    <p>This component has logger HOC applied</p>
+                    <p>(Check console)</p>
+                </div>
+            )
+        }
+
+        const EnhancedComponent = withLogger(SimpleComponent)
+
+        function HOCDemo() {
+            return (
+                <div className="demo-area">
+                    <EnhancedComponent />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<HOCDemo />, document.getElementById('component13'))
+
+        // 14. Custom Hook
+        function useFormInput(initialValue) {
+            const [value, setValue] = useState(initialValue)
+
+            return {
+                value,
+                bind: {
+                    value,
+                    onChange: e => setValue(e.target.value)
+                }
+            }
+        }
+
+        function FormComponent() {
+            const name = useFormInput('')
+            const email = useFormInput('')
+
+            return (
+                <div className="component-box">
+                    <h4>Form with Custom Hook</h4>
+                    <input
+                        {...name.bind}
+                        type="text"
+                        className="input-field"
+                        placeholder="Enter name"
+                    />
+                    <br />
+                    <input
+                        {...email.bind}
+                        type="email"
+                        className="input-field"
+                        placeholder="Enter email"
+                    />
+                    <div style={{ marginTop: '10px' }}>
+                        <p><strong>Name:</strong> {name.value}</p>
+                        <p><strong>Email:</strong> {email.value}</p>
+                    </div>
+                </div>
+            )
+        }
+
+        function HookDemo() {
+            return (
+                <div className="demo-area">
+                    <FormComponent />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<HookDemo />, document.getElementById('component14'))
+
+        // 15. Fragment
+        function FragmentExample() {
+            return (
+                <div className="component-box">
+                    <h4>Using Fragments</h4>
+                    <p>Multiple elements without wrapper div</p>
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                    </ul>
+                </div>
+            )
+        }
+
+        function FragmentDemo() {
+            return (
+                <div className="demo-area">
+                    <FragmentExample />
+                </div>
+            )
+        }
+
+        ReactDOM.render(<FragmentDemo />, document.getElementById('component15'))
+    </script>
+</body>
+</html>
