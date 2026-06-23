@@ -1,0 +1,270 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+#root {
+  width: 100%;
+  max-width: 800px;
+}
+
+.quiz-container {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.quiz-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.quiz-header h1 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 2.5em;
+}
+
+.quiz-header p {
+  color: #666;
+  font-size: 1.1em;
+}
+
+.progress-bar {
+  background: #f0f0f0;
+  height: 8px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.question-container {
+  margin-bottom: 30px;
+}
+
+.question-text {
+  font-size: 1.3em;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.question-number {
+  color: #667eea;
+  font-weight: 700;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option {
+  padding: 15px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #f9f9f9;
+  font-size: 1.05em;
+}
+
+.option:hover {
+  border-color: #667eea;
+  background: #f0f0f8;
+  transform: translateX(5px);
+}
+
+.option.selected {
+  border-color: #667eea;
+  background: #e8ebff;
+  font-weight: 600;
+}
+
+.option.correct {
+  border-color: #4caf50;
+  background: #e8f5e9;
+}
+
+.option.incorrect {
+  border-color: #f44336;
+  background: #ffebee;
+}
+
+.option:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+button {
+  padding: 12px 30px;
+  font-size: 1.05em;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-next {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  flex: 1;
+  max-width: 150px;
+}
+
+.btn-next:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-next:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-restart {
+  background: #667eea;
+  color: white;
+}
+
+.btn-restart:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.results-container {
+  text-align: center;
+  animation: slideIn 0.5s ease-out;
+}
+
+.results-container h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 2em;
+}
+
+.score {
+  font-size: 3em;
+  color: #667eea;
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.score-text {
+  color: #666;
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.result-message {
+  font-size: 1.3em;
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.result-details {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.result-detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.result-detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  color: #666;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: #333;
+}
+
+.message-excellent {
+  color: #4caf50;
+}
+
+.message-good {
+  color: #ff9800;
+}
+
+.message-fair {
+  color: #f44336;
+}
+
+@media (max-width: 600px) {
+  .quiz-container {
+    padding: 20px;
+  }
+
+  .quiz-header h1 {
+    font-size: 1.8em;
+  }
+
+  .question-text {
+    font-size: 1.1em;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .btn-next {
+    max-width: 100%;
+  }
+
+  .score {
+    font-size: 2.5em;
+  }
+}
